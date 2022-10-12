@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>38564266820-r2j7pjekcg54dlbhrt8kt4ak67b5rbp9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.38564266820-r2j7pjekcg54dlbhrt8kt4ak67b5rbp9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCXg1b3DAQYVjacXZaR2ziVcNnxaaiXXKA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>38564266820</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.colap</string>
+	<key>PROJECT_ID</key>
+	<string>colap-57b30</string>
+	<key>STORAGE_BUCKET</key>
+	<string>colap-57b30.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:38564266820:ios:34ccc718e3b78d92290d11</string>
+	<key>DATABASE_URL</key>
+	<string>https://colap-57b30-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>

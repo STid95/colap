@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "38564266820",
+    "firebase_url": "https://colap-57b30-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "colap-57b30",
+    "storage_bucket": "colap-57b30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38564266820:android:7eef4e5b04f48f42290d11",
+        "android_client_info": {
+          "package_name": "com.example.colap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "38564266820-ml73v5o5d9pf7dr5djo793qv9q6incut.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOyZ208lKnURuRgQZduAD5J97uVHB0Obo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "38564266820-ml73v5o5d9pf7dr5djo793qv9q6incut.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "38564266820-r2j7pjekcg54dlbhrt8kt4ak67b5rbp9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.colap"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
