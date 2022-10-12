@@ -1,14 +1,14 @@
 import 'package:colap/models/colap_user.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
-import 'database.dart';
+import 'database_user.dart';
 
 class AuthService {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
   ColapUser? _userFromFirebase(auth.User? user) {
     if (user == null) return null;
-    return ColapUser(uid: user.uid, email: user.email);
+    return ColapUser(uid: user.uid, email: user.email ?? '', name: '');
   }
 
   Stream<ColapUser?> get user {
@@ -36,7 +36,7 @@ class AuthService {
       if (user == null) {
         throw Exception("No user found");
       } else {
-        await DatabaseService(user.uid).saveUser(name, [], email);
+        await DatabaseUserService(user.uid).saveUser(name: name, email: email);
         return _userFromFirebase(user);
       }
     } catch (exception) {
