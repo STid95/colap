@@ -47,4 +47,12 @@ class DatabaseUserService {
       return [];
     }
   }
+
+  Stream<List<ColapList>> get userList {
+    return userCollection
+        .doc(uid)
+        .collection("lists")
+        .snapshots()
+        .map(allUserListsFromSnapshot);
+  }
 }

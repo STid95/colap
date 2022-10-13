@@ -1,18 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colap/models/colap_list.dart';
 import 'package:colap/services/database_user.dart';
+import 'package:flutter/material.dart';
 
-class ColapUser {
+class ColapUser extends ChangeNotifier {
   String uid;
   String email;
   String name;
   bool hasList;
   List<ColapList>? lists;
   ColapUser(
-      {required this.uid,
-      required this.email,
-      required this.name,
-      this.hasList = false});
+      {this.uid = '', this.email = '', this.name = '', this.hasList = false});
+
+  Future<void> setUserList() async {
+    lists = await getLists();
+    notifyListeners();
+  }
+
+  Future<List<ColapList>> getLists() async {
+    DatabaseUserService databaseUserService = DatabaseUserService(uid);
+    return await databaseUserService.userLists;
+  }
 }
 
 ColapUser userFromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
@@ -25,13 +33,4 @@ ColapUser userFromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
       hasList: data['hasList']);
 
   return user;
-}
-
-Future<List<ColapList>> getLists(String uid) async {
-  DatabaseUserService databaseUserService = DatabaseUserService(uid);
-  return await databaseUserService.userLists;
-}
-
-void setUserList(ColapUser user) async {
-  user.lists = await getLists(user.uid);
 }

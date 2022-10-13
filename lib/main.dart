@@ -1,5 +1,6 @@
 import 'package:colap/models/colap_user.dart';
 import 'package:colap/screens/authenticate_screen.dart';
+import 'package:colap/screens/lists_screen.dart';
 import 'package:colap/services/auth_service.dart';
 import 'package:colap/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => SplashScreenWrapper(),
           '/login': (context) => const AuthenticateScreen(),
+          '/lists': (context) => const ListsScreen()
         },
       ),
     );

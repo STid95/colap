@@ -13,15 +13,26 @@ class ColapList {
   });
 }
 
+ColapList userListFromSnapshot(
+    DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  var data = snapshot.data();
+  if (data == null) throw Exception("list not found");
+  return ColapList(
+    uid: snapshot['uid'],
+    title: snapshot['title'],
+  );
+}
+
 ColapList listFromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
   var data = snapshot.data();
   if (data == null) throw Exception("list not found");
   return ColapList(
-    uid: snapshot.id,
-    title: snapshot['title'],
-    names: snapshot['names'] != null
-        ? List<ColapName>.from(
-            snapshot['names']?.map((x) => nameFromSnapshot(x)))
-        : [],
-  );
+      uid: snapshot['uid'], title: snapshot['title'], names: snapshot['names']);
+}
+
+List<ColapList> allUserListsFromSnapshot(
+    QuerySnapshot<Map<String, dynamic>> snapshot) {
+  return snapshot.docs.map((doc) {
+    return userListFromSnapshot(doc);
+  }).toList();
 }

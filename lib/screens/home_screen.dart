@@ -28,16 +28,16 @@ class HomeScreen extends StatelessWidget {
                   Text("Bienvenue ${user?.name}"),
                   if (user!.hasList)
                     ElevatedButton(
-                        onPressed: (() => print("coucou")),
+                        onPressed: (() => navigator.pushNamed("/lists")),
                         child: const Text("Accéder à mes listes")),
                   ElevatedButton(
                       onPressed: () async {
                         final messenger = ScaffoldMessenger.of(context);
-                        ColapList? list =
-                            await databaseList.createList("Fille");
+                        ColapList? list = await databaseList.createList("Test");
                         if (list != null) {
                           databaseUser.addList(list, user!);
-                          user?.lists = await databaseUser.userLists;
+                          await user!.setUserList();
+                          navigator.pushNamed("/lists");
                         } else {
                           messenger.showSnackBar(const SnackBar(
                               content: Text("Une erreur s'est produite")));

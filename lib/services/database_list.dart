@@ -15,7 +15,7 @@ class DatabaseListService {
   }
 
   Future<ColapList?> createList(String title) async {
-    final doc = await listCollection.add({'title': title});
+    final doc = await listCollection.add({'title': title, 'names': []});
     uid = doc.id;
     return ColapList(title: title, names: [], uid: uid);
   }
