@@ -1,3 +1,4 @@
+import 'package:colap/ui/ui.tab.bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,8 @@ class _ListsScreenState extends State<ListsScreen> {
     return ColapPage(
         child: StreamBuilder(
             stream: databaseUser.userList,
-            builder: (context, snapshot) => Text(snapshot.data.toString())));
+            builder: (context, snapshot) => snapshot.data != null
+                ? ColapTabBar(lists: snapshot.data!)
+                : Container()));
   }
 }

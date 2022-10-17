@@ -20,7 +20,7 @@ class DatabaseUserService {
     userCollection
         .doc(uid)
         .collection('lists')
-        .doc(list.title)
+        .doc(list.uid)
         .set({'title': list.title, 'uid': list.uid});
     await userCollection
         .doc(user.uid)

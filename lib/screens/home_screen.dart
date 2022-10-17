@@ -33,7 +33,8 @@ class HomeScreen extends StatelessWidget {
                   ElevatedButton(
                       onPressed: () async {
                         final messenger = ScaffoldMessenger.of(context);
-                        ColapList? list = await databaseList.createList("Test");
+                        ColapList? list =
+                            await databaseList.createList("Filles");
                         if (list != null) {
                           databaseUser.addList(list, user!);
                           await user!.setUserList();
