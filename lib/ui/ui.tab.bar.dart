@@ -21,6 +21,7 @@ class _ColapTabBarState extends State<ColapTabBar>
   @override
   void initState() {
     _tabController = TabController(length: widget.lists.length, vsync: this);
+
     super.initState();
   }
 

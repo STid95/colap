@@ -39,4 +39,20 @@ class DatabaseNameListService {
       return [];
     }
   }
+
+  Stream<List<ColapName>> get listNames {
+    print(listUid);
+    final namesCollection = FirebaseFirestore.instance
+        .collection("lists")
+        .doc(listUid)
+        .collection("names");
+    return namesCollection.snapshots().map(allNamesFromSnapshot);
+  }
+
+  List<ColapName> allNamesFromSnapshot(
+      QuerySnapshot<Map<String, dynamic>> snapshot) {
+    return snapshot.docs.map((doc) {
+      return nameFromSnapshot(doc);
+    }).toList();
+  }
 }

@@ -13,14 +13,10 @@ class ColapList {
     this.names = const [],
   });
 
-  Future<List<ColapName>> addName(ColapName name) async {
-    DatabaseListService listService = DatabaseListService(uid: uid!);
-    return await listService.addName(name);
-  }
+  DatabaseListService listService = DatabaseListService();
 
-  Future<List<ColapName>> get fetchedNames {
-    DatabaseListService listService = DatabaseListService(uid: uid!);
-    return listService.names;
+  void addName(ColapName name) async {
+    listService.addName(uid!, name);
   }
 }
 

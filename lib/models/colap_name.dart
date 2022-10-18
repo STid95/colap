@@ -15,6 +15,7 @@ class ColapName {
 
 ColapName nameFromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
   var data = snapshot.data();
+  print(data);
   if (data == null) throw Exception("name not found");
   return ColapName(
     name: data['name'],
