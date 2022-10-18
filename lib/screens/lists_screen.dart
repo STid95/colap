@@ -1,3 +1,4 @@
+import 'package:colap/screens/authenticate_screen.dart';
 import 'package:colap/ui/ui.tab.bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -17,15 +18,16 @@ class _ListsScreenState extends State<ListsScreen> {
   @override
   Widget build(BuildContext context) {
     ColapUser? user = Provider.of<ColapUser?>(context);
-    if (user == null) throw Exception("user not found");
-
-    final databaseUser = DatabaseUserService(user.uid);
-
-    return ColapPage(
-        child: StreamBuilder(
-            stream: databaseUser.userList,
-            builder: (context, snapshot) => snapshot.data != null
-                ? ColapTabBar(lists: snapshot.data!)
-                : Container()));
+    if (user == null) {
+      return const AuthenticateScreen();
+    } else {
+      final databaseUser = DatabaseUserService(user.uid);
+      return ColapPage(
+          child: StreamBuilder(
+              stream: databaseUser.userList,
+              builder: (context, snapshot) => snapshot.data != null
+                  ? ColapTabBar(lists: snapshot.data!)
+                  : Container()));
+    }
   }
 }

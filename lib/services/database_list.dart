@@ -10,8 +10,9 @@ class DatabaseListService {
   String? uid;
   DatabaseListService();
 
-  Future<ColapList?> createList(String title) async {
-    final doc = await listCollection.add({'title': title, 'names': []});
+  Future<ColapList?> createList(String title, String userNickname) async {
+    final doc = await listCollection.add(
+        {'title': title, 'names': [], 'user_1': userNickname, 'user_2': ''});
     final uid = doc.id;
     return ColapList(title: title, names: [], uid: uid);
   }
@@ -27,8 +28,8 @@ class DatabaseListService {
   void addName(String uid, ColapName name) {
     listCollection.doc(uid).collection('names').add({
       'name': name.name,
-      'grade_1': name.grade1 ?? 0,
-      'grade_2': name.grade2 ?? 0,
+      'grade_1': name.grade1,
+      'grade_2': name.grade2,
       'comment': name.comment ?? ''
     });
   }
@@ -39,8 +40,8 @@ class DatabaseListService {
 
   Stream<List<ColapName>> getNames(String uid) {
     final DatabaseNameListService databaseNameListService =
-        DatabaseNameListService(listUid: uid);
+        DatabaseNameListService();
 
-    return databaseNameListService.listNames;
+    return databaseNameListService.getListNames(uid);
   }
 }

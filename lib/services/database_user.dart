@@ -17,11 +17,12 @@ class DatabaseUserService {
   }
 
   Future<void> addList(ColapList list, ColapUser user) async {
-    userCollection
-        .doc(uid)
-        .collection('lists')
-        .doc(list.uid)
-        .set({'title': list.title, 'uid': list.uid});
+    userCollection.doc(uid).collection('lists').doc(list.uid).set({
+      'title': list.title,
+      'uid': list.uid,
+      'user_1': user.name,
+      'user_2': ''
+    });
     await userCollection
         .doc(user.uid)
         .set({'name': user.name, 'email': user.email, 'hasList': true});

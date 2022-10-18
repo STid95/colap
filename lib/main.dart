@@ -3,6 +3,7 @@ import 'package:colap/screens/authenticate_screen.dart';
 import 'package:colap/screens/lists_screen.dart';
 import 'package:colap/services/auth_service.dart';
 import 'package:colap/services/database_list.dart';
+import 'package:colap/services/database_name.dart';
 import 'package:colap/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<DatabaseListService>(create: (_) => DatabaseListService()),
+        Provider<DatabaseNameListService>(
+            create: (_) => DatabaseNameListService()),
         StreamProvider<ColapUser?>(
             create: (_) => AuthService().user, initialData: null),
       ],
@@ -31,7 +34,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         routes: {
-          '/': (context) => SplashScreenWrapper(),
+          '/': (context) => const SplashScreenWrapper(),
           '/login': (context) => const AuthenticateScreen(),
           '/lists': (context) => const ListsScreen()
         },

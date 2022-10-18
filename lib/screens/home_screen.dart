@@ -17,44 +17,36 @@ class HomeScreen extends StatelessWidget {
     final databaseUser = DatabaseUserService(user.uid);
     final databaseList = DatabaseListService();
     return ColapPage(
-        child: StreamBuilder(
-            stream: databaseUser.user,
-            builder: (context, snapshot) {
-              final navigator = Navigator.of(context);
-              if (snapshot.hasData) {
-                user = snapshot.data;
-                return Center(
-                    child: Column(children: [
-                  Text("Bienvenue ${user?.name}"),
-                  if (user!.hasList)
-                    ElevatedButton(
-                        onPressed: (() => navigator.pushNamed("/lists")),
-                        child: const Text("Accéder à mes listes")),
+        child: StreamProvider<ColapUser>(
+            create: (context) {
+              return databaseUser.user;
+            },
+            initialData: user,
+            builder: (context, child) {
+              user = Provider.of<ColapUser>(context);
+              return Center(
+                  child: Column(children: [
+                Text("Bienvenue ${user?.name}"),
+                if (user!.hasList)
                   ElevatedButton(
-                      onPressed: () async {
-                        final messenger = ScaffoldMessenger.of(context);
-                        ColapList? list =
-                            await databaseList.createList("Filles");
-                        if (list != null) {
-                          databaseUser.addList(list, user!);
-                          await user!.setUserList();
-                          navigator.pushNamed("/lists");
-                        } else {
-                          messenger.showSnackBar(const SnackBar(
-                              content: Text("Une erreur s'est produite")));
-                        }
-                      },
-                      child: const Text("Créer une nouvelle liste"))
-                ]));
-              } else {
-                return const Center(
-                  child: SizedBox(
-                    width: 200,
-                    height: 200,
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
+                      onPressed: (() => Navigator.pushNamed(context, "/lists")),
+                      child: const Text("Accéder à mes listes")),
+                ElevatedButton(
+                    onPressed: () async {
+                      final messenger = ScaffoldMessenger.of(context);
+                      ColapList? list =
+                          await databaseList.createList("Filles", user!.name);
+                      if (list != null) {
+                        databaseUser.addList(list, user!);
+                        await user!.setUserList();
+                        Navigator.pushNamed(context, "/lists");
+                      } else {
+                        messenger.showSnackBar(const SnackBar(
+                            content: Text("Une erreur s'est produite")));
+                      }
+                    },
+                    child: const Text("Créer une nouvelle liste"))
+              ]));
             }));
   }
 }

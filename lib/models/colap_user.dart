@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colap/models/colap_list.dart';
 import 'package:colap/services/database_user.dart';
-import 'package:flutter/material.dart';
 
-class ColapUser extends ChangeNotifier {
+class ColapUser {
   String uid;
   String email;
   String name;
@@ -14,7 +13,6 @@ class ColapUser extends ChangeNotifier {
 
   Future<void> setUserList() async {
     lists = await getLists();
-    notifyListeners();
   }
 
   Future<List<ColapList>> getLists() async {

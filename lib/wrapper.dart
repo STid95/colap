@@ -6,6 +6,8 @@ import 'package:colap/models/colap_user.dart';
 import 'package:colap/screens/authenticate_screen.dart';
 
 class SplashScreenWrapper extends StatelessWidget {
+  const SplashScreenWrapper();
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<ColapUser?>(context);
