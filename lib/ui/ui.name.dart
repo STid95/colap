@@ -25,38 +25,43 @@ class _UINameState extends State<UIName> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        child: Container(
-          padding: const EdgeInsets.all(15),
-          decoration: details
-              ? BoxDecoration(
-                  border: Border.all(color: Colors.deepPurple, width: 3),
-                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                )
-              : null,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              GestureDetector(
-                  child: Text(
-                    widget.name,
-                    style: TextStyle(fontSize: details ? 23 : 20),
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: GestureDetector(
+        child: details
+            ? Card(
+                shadowColor: Colors.purple,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      StreamProvider<ColapName>.value(
+                        value: Provider.of<DatabaseNameListService>(context)
+                            .getName(widget.listId, widget.nameId),
+                        initialData: ColapName(name: ''),
+                        builder: (context, child) {
+                          ColapName name = Provider.of<ColapName>(context);
+                          return UINameDetails(
+                            name: name,
+                            onDelete: () => setState(() {
+                              details = false;
+                            }),
+                          );
+                        },
+                      )
+                    ],
                   ),
-                  onTap: () => setState(() {
-                        details = !details;
-                      })),
-              if (details)
-                StreamProvider<ColapName>.value(
-                  value: Provider.of<DatabaseNameListService>(context)
-                      .getName(widget.listId, widget.nameId),
-                  initialData: ColapName(name: ''),
-                  builder: (context, child) {
-                    ColapName name = Provider.of<ColapName>(context);
-                    return UINameDetails(name: name);
-                  },
-                )
-            ],
-          ),
-        ));
+                ),
+              )
+            : Text(
+                widget.name,
+                style: const TextStyle(fontSize: 20),
+              ),
+        onTap: () => setState(() {
+          details = !details;
+        }),
+      ),
+    );
   }
 }

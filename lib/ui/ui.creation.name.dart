@@ -7,6 +7,7 @@ import 'package:colap/models/colap_list.dart';
 import '../models/colap_name.dart';
 
 class UICreationName extends StatefulWidget {
+  final void Function() onCancel;
   final Function(ColapName) onValidate;
   final String userName;
 
@@ -14,6 +15,7 @@ class UICreationName extends StatefulWidget {
     Key? key,
     required this.onValidate,
     required this.userName,
+    required this.onCancel,
   }) : super(key: key);
 
   @override
@@ -91,7 +93,6 @@ class _UICreationNameState extends State<UICreationName> {
                           ),
                       onRatingUpdate: (rating) {
                         if (widget.userName == list.user1) {
-                          print("coucou");
                           grade1 = rating.toInt();
                         } else {
                           grade2 = rating.toInt();
@@ -107,20 +108,28 @@ class _UICreationNameState extends State<UICreationName> {
                     maxLines: null,
                     controller: commentController,
                   ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() == true) {
-                          widget.onValidate(ColapName(
-                              name: nameController.text,
-                              grade1: grade1,
-                              grade2: grade2,
-                              comment: commentController.text));
-                        }
-                      },
-                      child: const Text("OK"),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          widget.onCancel();
+                        },
+                        child: const Text("Annuler"),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState?.validate() == true) {
+                            widget.onValidate(ColapName(
+                                name: nameController.text,
+                                grade1: grade1,
+                                grade2: grade2,
+                                comment: commentController.text));
+                          }
+                        },
+                        child: const Text("OK"),
+                      ),
+                    ],
                   ),
                 ],
               ),

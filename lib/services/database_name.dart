@@ -14,6 +14,14 @@ class DatabaseNameListService {
     return namesCollection.doc(uid).snapshots().map(nameFromSnapshot);
   }
 
+  Future<void> removeName(String listUid, String uid) {
+    final namesCollection = FirebaseFirestore.instance
+        .collection("lists")
+        .doc(listUid)
+        .collection("names");
+    return namesCollection.doc(uid).delete();
+  }
+
   Future<void> updateRating(
       String listUid, String uid, String field, int rating) async {
     FirebaseFirestore.instance

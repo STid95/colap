@@ -23,6 +23,10 @@ class ColapList {
   void addName(ColapName name) async {
     listService.addName(uid!, name);
   }
+
+  void deleteList() async {
+    listService.deleteList(uid!);
+  }
 }
 
 ColapList userListFromSnapshot(

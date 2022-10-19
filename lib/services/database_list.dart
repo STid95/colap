@@ -30,7 +30,7 @@ class DatabaseListService {
       'name': name.name,
       'grade_1': name.grade1,
       'grade_2': name.grade2,
-      'comment': name.comment ?? ''
+      'comment': name.comment
     });
   }
 

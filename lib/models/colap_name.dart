@@ -18,6 +18,10 @@ class ColapName {
   void updateRating1(String listUid) async {
     databaseNameListService.updateRating(listUid, uid!, "grade_1", grade1);
   }
+
+  void remove(String listUid) async {
+    databaseNameListService.removeName(listUid, uid!);
+  }
 }
 
 ColapName nameFromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {

@@ -11,13 +11,10 @@ class ColapUser {
   ColapUser(
       {this.uid = '', this.email = '', this.name = '', this.hasList = false});
 
-  Future<void> setUserList() async {
-    lists = await getLists();
-  }
+  void deleteList(String listUid) async {
+    DatabaseUserService userService = DatabaseUserService(uid);
 
-  Future<List<ColapList>> getLists() async {
-    DatabaseUserService databaseUserService = DatabaseUserService(uid);
-    return await databaseUserService.userLists;
+    userService.deleteList(listUid);
   }
 }
 

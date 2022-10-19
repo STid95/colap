@@ -10,10 +10,12 @@ import 'package:colap/ui/ui.name.dart';
 import '../models/colap_user.dart';
 
 class UIColapList extends StatefulWidget {
+  final void Function() onListDeleted;
   final ColapList list;
   const UIColapList({
     Key? key,
     required this.list,
+    required this.onListDeleted,
   }) : super(key: key);
 
   @override
@@ -28,7 +30,7 @@ class _UIColapListState extends State<UIColapList>
 
   @override
   Widget build(BuildContext context) {
-    String currentUser = Provider.of<ColapUser>(context, listen: false).name;
+    ColapUser currentUser = Provider.of<ColapUser>(context, listen: false);
 
     super.build(context);
     return Provider(
@@ -58,7 +60,7 @@ class _UIColapListState extends State<UIColapList>
                                 ValueKey key = ValueKey(listNamesToAdd.length);
                                 setState(() {
                                   listNamesToAdd.add(UICreationName(
-                                    userName: currentUser,
+                                    userName: currentUser.name,
                                     key: key,
                                     onValidate: (name) {
                                       setState(() {
@@ -67,6 +69,10 @@ class _UIColapListState extends State<UIColapList>
                                             (element) => element.key == key);
                                       });
                                     },
+                                    onCancel: () => setState(() {
+                                      listNamesToAdd.removeWhere(
+                                          (element) => element.key == key);
+                                    }),
                                   ));
                                 });
                               },
@@ -82,7 +88,14 @@ class _UIColapListState extends State<UIColapList>
                           ),
                         ))),
                 if (listNamesToAdd.isNotEmpty) Column(children: listNamesToAdd),
-                Expanded(child: NamesListView(list: widget.list))
+                Expanded(child: NamesListView(list: widget.list)),
+                ElevatedButton(
+                    onPressed: () {
+                      widget.list.deleteList();
+                      currentUser.deleteList(widget.list.uid!);
+                      widget.onListDeleted();
+                    },
+                    child: const Text("Supprimer la liste")),
               ]));
         },
       ),

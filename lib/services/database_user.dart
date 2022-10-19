@@ -28,6 +28,10 @@ class DatabaseUserService {
         .set({'name': user.name, 'email': user.email, 'hasList': true});
   }
 
+  Future<void> deleteList(String listUid) {
+    return userCollection.doc(uid).collection('lists').doc(listUid).delete();
+  }
+
   Future<void> saveToken(String? token) async {
     return await userCollection.doc(uid).update({'token': token});
   }

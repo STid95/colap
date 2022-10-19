@@ -24,13 +24,19 @@ class ColapPage extends StatelessWidget {
       initialData: user,
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: AppBar(title: const Text("Colap"), actions: [
-            IconButton(
-                onPressed: () {
-                  _auth.signOut();
-                },
-                icon: const Icon(Icons.logout))
-          ]),
+          appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pushNamed(context, "/"),
+              ),
+              title: const Text("Colap"),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      _auth.signOut();
+                    },
+                    icon: const Icon(Icons.logout))
+              ]),
           body: child),
     );
   }

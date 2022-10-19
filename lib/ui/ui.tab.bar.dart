@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import '../models/colap_list.dart';
 
 class ColapTabBar extends StatefulWidget {
+  final String? createdListId;
   final List<ColapList> lists;
   const ColapTabBar({
     Key? key,
     required this.lists,
+    this.createdListId,
   }) : super(key: key);
 
   @override
@@ -15,18 +17,31 @@ class ColapTabBar extends StatefulWidget {
 }
 
 class _ColapTabBarState extends State<ColapTabBar>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
-    _tabController = TabController(length: widget.lists.length, vsync: this);
+    _tabController = TabController(
+        initialIndex: widget.createdListId != null
+            ? widget.lists.indexOf(widget.lists
+                .firstWhere((element) => element.uid == widget.createdListId))
+            : 0,
+        length: widget.lists.length,
+        vsync: this);
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    _tabController = TabController(
+        initialIndex: widget.createdListId != null
+            ? widget.lists.indexOf(widget.lists
+                .firstWhere((element) => element.uid == widget.createdListId))
+            : 0,
+        length: widget.lists.length,
+        vsync: this);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(children: [
@@ -48,8 +63,15 @@ class _ColapTabBarState extends State<ColapTabBar>
         Expanded(
             child: TabBarView(
                 controller: _tabController,
-                children:
-                    widget.lists.map((e) => UIColapList(list: e)).toList()))
+                children: widget.lists
+                    .map((e) => UIColapList(
+                          list: e,
+                          onListDeleted: () {
+                            _tabController = TabController(
+                                length: widget.lists.length, vsync: this);
+                          },
+                        ))
+                    .toList()))
       ]),
     );
   }
