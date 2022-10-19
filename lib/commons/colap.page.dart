@@ -23,6 +23,7 @@ class ColapPage extends StatelessWidget {
       create: (context) => databaseUser.user,
       initialData: user,
       child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(title: const Text("Colap"), actions: [
             IconButton(
                 onPressed: () {
@@ -30,7 +31,7 @@ class ColapPage extends StatelessWidget {
                 },
                 icon: const Icon(Icons.logout))
           ]),
-          body: SingleChildScrollView(child: child)),
+          body: child),
     );
   }
 }

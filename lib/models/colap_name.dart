@@ -11,8 +11,8 @@ class ColapName {
       {required this.name,
       this.uid,
       this.comment = '',
-      this.grade1 = 1,
-      this.grade2 = 1});
+      this.grade1 = 0,
+      this.grade2 = 0});
 
   DatabaseNameListService databaseNameListService = DatabaseNameListService();
   void updateRating1(String listUid) async {
