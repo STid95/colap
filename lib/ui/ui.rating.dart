@@ -13,7 +13,7 @@ class UIRating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RatingBar.builder(
-        itemSize: 35,
+        itemSize: 30,
         initialRating: initialRating,
         direction: Axis.horizontal,
         allowHalfRating: false,

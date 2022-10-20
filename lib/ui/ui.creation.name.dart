@@ -23,6 +23,7 @@ class UICreationName extends StatefulWidget {
 }
 
 class _UICreationNameState extends State<UICreationName> {
+  bool loading = false;
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final commentController = TextEditingController();
@@ -42,100 +43,110 @@ class _UICreationNameState extends State<UICreationName> {
       },
       child: SizedBox(
         height: 350,
-        child: Card(
-          shadowColor: Colors.purple,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      nameValidated
-                          ? Text(
-                              nameController.text,
-                              style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            )
-                          : Expanded(
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                  hintText: "Prénom",
-                                ),
-                                controller: nameController,
-                                keyboardType: TextInputType.name,
-                                autofocus: true,
-                                enableSuggestions: false,
-                                validator: (value) =>
-                                    value == null || value.isEmpty
-                                        ? "Entrez un prénom"
-                                        : null,
-                              ),
+        child: loading
+            ? const CircularProgressIndicator()
+            : Card(
+                shadowColor: Colors.purple,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            nameValidated
+                                ? Text(
+                                    nameController.text,
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : Expanded(
+                                    child: TextFormField(
+                                      decoration: const InputDecoration(
+                                        hintText: "Prénom",
+                                      ),
+                                      controller: nameController,
+                                      keyboardType: TextInputType.name,
+                                      autofocus: true,
+                                      enableSuggestions: false,
+                                      validator: (value) =>
+                                          value == null || value.isEmpty
+                                              ? "Entrez un prénom"
+                                              : null,
+                                    ),
+                                  ),
+                            IconButton(
+                                alignment: Alignment.centerRight,
+                                padding: const EdgeInsets.all(0),
+                                onPressed: (() => setState(
+                                    () => nameValidated = !nameValidated)),
+                                icon: Icon(
+                                    nameValidated ? Icons.edit : Icons.check))
+                          ],
+                        ),
+                        UIRating(
+                            initialRating: 0,
+                            onUpdate: (rating) {
+                              if (widget.userName == list.users[0]) {
+                                grade1 = rating.toInt();
+                              } else {
+                                grade2 = rating.toInt();
+                              }
+                            }),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            hintText: "Commentaires",
+                            border: OutlineInputBorder(),
+                          ),
+                          keyboardType: TextInputType.multiline,
+                          minLines: 3,
+                          maxLines: null,
+                          controller: commentController,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                widget.onCancel();
+                              },
+                              child: const Text("Annuler"),
                             ),
-                      IconButton(
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.all(0),
-                          onPressed: (() =>
-                              setState(() => nameValidated = !nameValidated)),
-                          icon: Icon(nameValidated ? Icons.edit : Icons.check))
-                    ],
-                  ),
-                  UIRating(
-                      initialRating: 0,
-                      onUpdate: (rating) {
-                        if (widget.userName == list.users[0]) {
-                          grade1 = rating.toInt();
-                        } else {
-                          grade2 = rating.toInt();
-                        }
-                      }),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: "Commentaires",
-                      border: OutlineInputBorder(),
+                            ElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState?.validate() == true) {
+                                  setState(() {
+                                    loading = true;
+                                  });
+                                  widget.onValidate(ColapName(
+                                      name: nameController.text,
+                                      grade1: grade1,
+                                      grade2: grade2,
+                                      comment: commentController.text,
+                                      averageGrade: grade1 != 0
+                                          ? grade1
+                                          : grade2 != 0
+                                              ? grade2
+                                              : 0));
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                }
+                              },
+                              child: const Text("OK"),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    keyboardType: TextInputType.multiline,
-                    minLines: 3,
-                    maxLines: null,
-                    controller: commentController,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          widget.onCancel();
-                        },
-                        child: const Text("Annuler"),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState?.validate() == true) {
-                            widget.onValidate(ColapName(
-                                name: nameController.text,
-                                grade1: grade1,
-                                grade2: grade2,
-                                comment: commentController.text,
-                                averageGrade: grade1 != 0
-                                    ? grade1
-                                    : grade2 != 0
-                                        ? grade2
-                                        : 0));
-                          }
-                        },
-                        child: const Text("OK"),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
       ),
     );
   }

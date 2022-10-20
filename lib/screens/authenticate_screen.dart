@@ -2,6 +2,7 @@ import 'package:colap/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import '../commons/constants.dart';
+import '../services/database_user.dart';
 
 class AuthenticateScreen extends StatefulWidget {
   const AuthenticateScreen({super.key});
@@ -51,8 +52,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
             appBar: AppBar(
               backgroundColor: Colors.deepPurpleAccent,
               elevation: 0.0,
-              title:
-                  Text(showSignIn ? 'Se connecter à Colap' : 'Créer un compte'),
+              title: Text(showSignIn ? 'Se connecter' : 'Créer un compte'),
               actions: <Widget>[
                 TextButton.icon(
                   icon: const Icon(
@@ -72,16 +72,15 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    !showSignIn
-                        ? TextFormField(
-                            controller: nameController,
-                            decoration: textInputDecoration.copyWith(
-                                hintText: 'Pseudo'),
-                            validator: (value) => value == null || value.isEmpty
-                                ? "Entrez un pseudo"
-                                : null,
-                          )
-                        : Container(),
+                    if (!showSignIn)
+                      TextFormField(
+                        controller: nameController,
+                        decoration:
+                            textInputDecoration.copyWith(hintText: 'Pseudo'),
+                        validator: (value) => value == null || value.isEmpty
+                            ? "Entrez un pseudo"
+                            : null,
+                      ),
                     !showSignIn ? const SizedBox(height: 10.0) : Container(),
                     TextFormField(
                       controller: emailController,
@@ -110,29 +109,39 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                       onPressed: () async {
                         if (_formKey.currentState?.validate() == true) {
                           setState(() => loading = true);
-                          var password = passwordController.value.text;
-                          var email = emailController.value.text;
-                          var name = nameController.value.text;
+                          var password =
+                              passwordController.value.text.trimRight();
+                          var email = emailController.value.text.trimRight();
+                          var name = nameController.value.text.trimRight();
 
-                          dynamic result = showSignIn
-                              ? await _auth.signInWithEmailAndPassword(
-                                  email, password)
-                              : await _auth.registerWithEmailAndPassword(
-                                  name, email, password);
-                          if (result == null) {
+                          final nameTaken =
+                              await checkIfUserExist(name.toLowerCase());
+                          if (nameTaken) {
                             setState(() {
                               loading = false;
-                              error = 'Veuillez entrer un e-mail valide';
+                              error =
+                                  'Ce pseudo existe déjà, veuillez en choisir un autre.';
                             });
+                          } else {
+                            dynamic result = showSignIn
+                                ? await _auth.signInWithEmailAndPassword(
+                                    email, password)
+                                : await _auth.registerWithEmailAndPassword(
+                                    name, email, password);
+                            if (result == null) {
+                              setState(() {
+                                loading = false;
+                                error = 'Veuillez entrer un e-mail valide';
+                              });
+                            }
                           }
                         }
                       },
                     ),
-                    const SizedBox(height: 10.0),
                     Text(
                       error,
                       style: const TextStyle(color: Colors.red, fontSize: 15.0),
-                    )
+                    ),
                   ],
                 ),
               ),

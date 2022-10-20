@@ -26,128 +26,133 @@ class _UINameDetailsState extends State<UINameDetails> {
   Widget build(BuildContext context) {
     final TextEditingController commentController =
         TextEditingController(text: widget.name.comment);
-
     final list = Provider.of<ColapList>(context, listen: false);
     final user = Provider.of<ColapUser>(context);
-    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Align(
-        alignment: Alignment.topRight,
-        child: InkWell(
-          child: const Icon(Icons.delete),
-          onTap: () {
-            widget.onDelete();
-            widget.name.remove(list.uid!);
-          },
-        ),
-      ),
-      const SizedBox(height: 10),
-      Row(children: [
-        Text(widget.name.name, style: const TextStyle(fontSize: 25))
-      ]),
-      const SizedBox(height: 10),
-      RatingBarIndicator(
-          itemSize: 50,
-          itemBuilder: (context, _) =>
-              const Icon(Icons.star, color: Colors.purpleAccent),
-          itemCount: 5,
-          rating: widget.name.averageGrade.toDouble()),
-      const SizedBox(height: 20),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              list.users[0],
-              style: const TextStyle(fontSize: 17),
-            ),
+    return SingleChildScrollView(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Align(
+          alignment: Alignment.topRight,
+          child: InkWell(
+            child: const Icon(Icons.delete),
+            onTap: () {
+              widget.onDelete();
+              widget.name.remove(list.uid!);
+            },
           ),
-          const SizedBox(width: 10),
-          SizedBox(
-              width: 200,
-              child: user.name == list.users[0]
-                  ? UIRating(
-                      initialRating: widget.name.grade1.toDouble(),
-                      onUpdate: (rating) {
-                        widget.name.grade1 = rating.toInt();
-                        widget.name.updateRating1(list.uid!);
-                      })
-                  : RatingBarIndicator(
-                      itemSize: 35,
-                      itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
-                      itemBuilder: (context, _) =>
-                          const Icon(Icons.star, color: Colors.purpleAccent),
-                      itemCount: 5,
-                      rating: widget.name.grade1.toDouble())),
-        ],
-      ),
-      if (list.users.length > 1)
+        ),
+        const SizedBox(height: 10),
+        Row(children: [
+          Text(widget.name.name, style: const TextStyle(fontSize: 25))
+        ]),
+        const SizedBox(height: 10),
+        RatingBarIndicator(
+            itemSize: 50,
+            itemBuilder: (context, _) =>
+                const Icon(Icons.star, color: Colors.purpleAccent),
+            itemCount: 5,
+            rating: widget.name.averageGrade.toDouble()),
+        const SizedBox(height: 20),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: Text(
-                list.users[1],
-                style: const TextStyle(fontSize: 17),
+                list.users[0],
+                style: const TextStyle(fontSize: 13),
               ),
             ),
             const SizedBox(width: 10),
             SizedBox(
-              width: 200,
-              child: user.name == list.users[1]
-                  ? UIRating(
-                      initialRating: widget.name.grade2.toDouble(),
-                      onUpdate: (rating) {
-                        widget.name.grade2 = rating.toInt();
-                        widget.name.updateRating2(list.uid!);
-                      })
-                  : RatingBarIndicator(
-                      itemSize: 35,
-                      itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
-                      itemBuilder: (context, _) =>
-                          const Icon(Icons.star, color: Colors.purpleAccent),
-                      itemCount: 5,
-                      rating: widget.name.grade2.toDouble()),
-            )
+                width: 180,
+                child: user.name == list.users[0]
+                    ? UIRating(
+                        initialRating: widget.name.grade1.toDouble(),
+                        onUpdate: (rating) {
+                          widget.name.grade1 = rating.toInt();
+                          widget.name.updateRating1(list.uid!);
+                        })
+                    : RatingBarIndicator(
+                        itemSize: 30,
+                        itemPadding:
+                            const EdgeInsets.symmetric(horizontal: 2.0),
+                        itemBuilder: (context, _) =>
+                            const Icon(Icons.star, color: Colors.purpleAccent),
+                        itemCount: 5,
+                        rating: widget.name.grade1.toDouble())),
           ],
         ),
-      const SizedBox(height: 20),
-      const Text("Commentaires"),
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            edit
-                ? Expanded(
-                    child: TextFormField(
-                      controller: commentController,
-                      autofocus: true,
-                      decoration: const InputDecoration(
-                        hintText: "Commentaires",
-                        border: OutlineInputBorder(),
+        if (list.users.length > 1)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  list.users[1],
+                  style: const TextStyle(fontSize: 13),
+                ),
+              ),
+              const SizedBox(width: 10),
+              SizedBox(
+                width: 180,
+                child: user.name == list.users[1]
+                    ? UIRating(
+                        initialRating: widget.name.grade2.toDouble(),
+                        onUpdate: (rating) {
+                          widget.name.grade2 = rating.toInt();
+                          widget.name.updateRating2(list.uid!);
+                        })
+                    : RatingBarIndicator(
+                        itemSize: 30,
+                        itemPadding:
+                            const EdgeInsets.symmetric(horizontal: 2.0),
+                        itemBuilder: (context, _) =>
+                            const Icon(Icons.star, color: Colors.purpleAccent),
+                        itemCount: 5,
+                        rating: widget.name.grade2.toDouble()),
+              )
+            ],
+          ),
+        const SizedBox(height: 20),
+        const Text("Commentaires"),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              edit
+                  ? Expanded(
+                      child: TextFormField(
+                        controller: commentController,
+                        autofocus: true,
+                        scrollPadding: const EdgeInsets.only(bottom: 60),
+                        decoration: const InputDecoration(
+                          hintText: "Commentaires",
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.multiline,
+                        minLines: 2,
+                        maxLines: null,
                       ),
-                      keyboardType: TextInputType.multiline,
-                      minLines: 2,
-                      maxLines: null,
+                    )
+                  : Text(
+                      widget.name.comment,
+                      style: const TextStyle(fontSize: 16),
                     ),
-                  )
-                : Text(
-                    widget.name.comment,
-                    style: const TextStyle(fontSize: 16),
-                  ),
-            IconButton(
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.all(0),
-                onPressed: (() {
-                  if (edit) {
-                    widget.name
-                        .updateComment(list.uid!, commentController.text);
-                  }
-                  setState(() => edit = !edit);
-                }),
-                icon: Icon(edit ? Icons.check : Icons.edit))
-          ],
+              IconButton(
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.all(0),
+                  onPressed: (() {
+                    if (edit) {
+                      widget.name
+                          .updateComment(list.uid!, commentController.text);
+                    }
+                    setState(() => edit = !edit);
+                  }),
+                  icon: Icon(edit ? Icons.check : Icons.edit))
+            ],
+          ),
         ),
-      ),
-    ]);
+      ]),
+    );
   }
 }

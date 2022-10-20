@@ -14,7 +14,7 @@ class ColapPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),

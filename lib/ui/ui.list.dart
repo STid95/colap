@@ -43,23 +43,38 @@ class _UIColapListState extends State<UIColapList>
         list.names = Provider.of<List<ColapName>>(context);
         return Padding(
             padding: const EdgeInsets.all(20),
-            child: Column(children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                RoundButton(
-                    onTap: () => createName(currentUser.name), icon: Icons.add),
-                if (list.users.length < 2)
-                  RoundButton(onTap: () => addUser(list), icon: Icons.link)
-              ]),
-              if (listNamesToAdd.isNotEmpty) Column(children: listNamesToAdd),
-              Expanded(child: NamesListView(list: list)),
-              ElevatedButton(
-                  onPressed: () {
-                    list.deleteList();
-                    currentUser.deleteList(list.uid!);
-                    widget.onListDeleted();
-                  },
-                  child: const Text("Supprimer la liste")),
-            ]));
+            child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RoundButton(
+                                onTap: () => createName(currentUser.name),
+                                icon: Icons.add),
+                            if (list.users.length < 2)
+                              RoundButton(
+                                  onTap: () => addUser(list), icon: Icons.link)
+                          ]),
+                      if (listNamesToAdd.isNotEmpty)
+                        Column(children: listNamesToAdd),
+                      SizedBox(
+                          height: 450,
+                          child: SingleChildScrollView(
+                              child: NamesListView(list: list))),
+                    ],
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        list.deleteList();
+                        currentUser.deleteList(list.uid!);
+                        widget.onListDeleted();
+                      },
+                      child: const Text("Supprimer la liste")),
+                ]));
       },
     );
   }
@@ -102,17 +117,16 @@ class NamesListView extends StatefulWidget {
 class _NamesListViewState extends State<NamesListView> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: ListView(
-          shrinkWrap: true,
-          children: widget.list.names
-              .map((e) => UIName(
-                    name: e.name,
-                    nameId: e.uid!,
-                    listId: widget.list.uid!,
-                    averageGrade: e.averageGrade,
-                  ))
-              .toList()),
-    );
+    return ListView(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        children: widget.list.names
+            .map((e) => UIName(
+                  name: e.name,
+                  nameId: e.uid!,
+                  listId: widget.list.uid!,
+                  averageGrade: e.averageGrade,
+                ))
+            .toList());
   }
 }

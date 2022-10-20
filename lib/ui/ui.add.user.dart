@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/colap_list.dart';
-import '../services/database_list.dart';
 
 Future<void> showUserDialog(BuildContext context, ColapList list) {
   return showDialog<void>(
@@ -33,10 +32,8 @@ class _AddUserDialogState extends State<AddUserDialog> {
     TextEditingController userName = TextEditingController();
     ColapUser user = Provider.of<ColapUser>(context);
     final databaseUser = DatabaseUserService(user.uid);
-    final databaseList = DatabaseListService();
     final navigator = Navigator.of(context);
 
-    final messenger = ScaffoldMessenger.of(context);
     return Dialog(
       child: SizedBox(
         height: 250,

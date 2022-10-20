@@ -4,12 +4,13 @@ import 'package:colap/models/colap_list.dart';
 
 import '../models/colap_user.dart';
 
+final userCollection = FirebaseFirestore.instance.collection("users");
+
 class DatabaseUserService {
   String uid;
 
   DatabaseUserService(this.uid);
 
-  final userCollection = FirebaseFirestore.instance.collection("users");
   final listCollection = FirebaseFirestore.instance.collection("lists");
 
   Future<void> saveUser({required String name, required String email}) async {
@@ -28,6 +29,12 @@ class DatabaseUserService {
     return userCollection.doc(uid).snapshots().map(userFromSnapshot);
   }
 
+  Stream<List<ColapList>> getUserList(String userName) {
+    var query =
+        listCollection.where('users', arrayContains: userName).snapshots();
+    return query.map((snapshot) => allUserListsFromSnapshot(snapshot));
+  }
+
   Future<ColapUser?> searchByUserName(String userName) async {
     return userCollection
         .where("name", isEqualTo: userName)
@@ -41,10 +48,14 @@ class DatabaseUserService {
       }
     });
   }
+}
 
-  Stream<List<ColapList>> getUserList(String userName) {
-    var query =
-        listCollection.where('users', arrayContains: userName).snapshots();
-    return query.map((snapshot) => allUserListsFromSnapshot(snapshot));
-  }
+Future<bool> checkIfUserExist(String userName) async {
+  return userCollection.where("name", isEqualTo: userName).get().then((value) {
+    if (value.docs.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 }
