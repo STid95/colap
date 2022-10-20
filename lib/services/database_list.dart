@@ -11,8 +11,10 @@ class DatabaseListService {
   DatabaseListService();
 
   Future<ColapList?> createList(String title, String userNickname) async {
-    final doc = await listCollection.add(
-        {'title': title, 'names': [], 'user_1': userNickname, 'user_2': ''});
+    final doc = await listCollection.add({
+      'title': title,
+      'users': [userNickname]
+    });
     final uid = doc.id;
     return ColapList(title: title, names: [], uid: uid);
   }
@@ -22,7 +24,9 @@ class DatabaseListService {
   }
 
   Future<void> addUser(String uid, String userName) async {
-    await listCollection.doc(uid).update({'user_2': userName});
+    await listCollection.doc(uid).update({
+      'users': FieldValue.arrayUnion([userName])
+    });
   }
 
   Future<void> deleteList(String uid) async {
@@ -34,7 +38,8 @@ class DatabaseListService {
       'name': name.name,
       'grade_1': name.grade1,
       'grade_2': name.grade2,
-      'comment': name.comment
+      'comment': name.comment,
+      'average_grade': name.averageGrade
     });
   }
 

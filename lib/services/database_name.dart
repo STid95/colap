@@ -23,7 +23,7 @@ class DatabaseNameListService {
   }
 
   Future<void> updateRating(
-      String listUid, String uid, String field, int rating) async {
+      String listUid, String uid, String field, num rating) async {
     FirebaseFirestore.instance
         .collection("lists")
         .doc(listUid)
@@ -32,11 +32,21 @@ class DatabaseNameListService {
         .update({field: rating});
   }
 
+  Future<void> updateComment(String listUid, String uid, String comment) async {
+    FirebaseFirestore.instance
+        .collection("lists")
+        .doc(listUid)
+        .collection("names")
+        .doc(uid)
+        .update({'comment': comment});
+  }
+
   Stream<List<ColapName>> getListNames(String listUid) {
     final namesCollection = FirebaseFirestore.instance
         .collection("lists")
         .doc(listUid)
-        .collection("names");
+        .collection("names")
+        .orderBy('average_grade', descending: true);
     return namesCollection.snapshots().map(allNamesFromSnapshot);
   }
 

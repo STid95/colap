@@ -56,7 +56,7 @@ class _AddUserDialogState extends State<AddUserDialog> {
                 ElevatedButton(
                     onPressed: () async {
                       final foundUser =
-                          await databaseUser.searchByUserName("NContant");
+                          await databaseUser.searchByUserName(userName.text);
                       if (foundUser == null) {
                         setState(() {
                           error = true;

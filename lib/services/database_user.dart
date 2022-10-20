@@ -13,29 +13,7 @@ class DatabaseUserService {
   final listCollection = FirebaseFirestore.instance.collection("lists");
 
   Future<void> saveUser({required String name, required String email}) async {
-    await userCollection
-        .doc(uid)
-        .set({'name': name, 'email': email, 'hasList': false});
-  }
-
-  Future<void> addList(ColapList list, String userName) async {
-    userCollection.doc(uid).collection('lists').doc(list.uid).set({
-      'title': list.title,
-      'uid': list.uid,
-      'user_1': userName,
-      'user_2': ''
-    });
-    await userCollection.doc(uid).update({'hasList': true});
-  }
-
-  Future<void> addUserToList(ColapList list, String userName) async {
-    userCollection.doc(uid).collection('lists').doc(list.uid).set({
-      'title': list.title,
-      'uid': list.uid,
-      'user_1': userName,
-      'user_2': ''
-    });
-    await userCollection.doc(uid).update({'hasList': true});
+    await userCollection.doc(uid).set({'name': name, 'email': email});
   }
 
   Future<void> deleteList(String listUid) {

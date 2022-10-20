@@ -1,5 +1,5 @@
+import 'package:colap/ui/ui.rating.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:colap/models/colap_list.dart';
@@ -84,15 +84,10 @@ class _UICreationNameState extends State<UICreationName> {
                           icon: Icon(nameValidated ? Icons.edit : Icons.check))
                     ],
                   ),
-                  RatingBar.builder(
-                      direction: Axis.horizontal,
-                      allowHalfRating: false,
-                      itemBuilder: (context, _) => const Icon(
-                            Icons.star,
-                            color: Colors.purpleAccent,
-                          ),
-                      onRatingUpdate: (rating) {
-                        if (widget.userName == list.user1) {
+                  UIRating(
+                      initialRating: 0,
+                      onUpdate: (rating) {
+                        if (widget.userName == list.users[0]) {
                           grade1 = rating.toInt();
                         } else {
                           grade2 = rating.toInt();
@@ -124,7 +119,12 @@ class _UICreationNameState extends State<UICreationName> {
                                 name: nameController.text,
                                 grade1: grade1,
                                 grade2: grade2,
-                                comment: commentController.text));
+                                comment: commentController.text,
+                                averageGrade: grade1 != 0
+                                    ? grade1
+                                    : grade2 != 0
+                                        ? grade2
+                                        : 0));
                           }
                         },
                         child: const Text("OK"),

@@ -67,10 +67,7 @@ class _ColapTabBarState extends State<ColapTabBar>
                 children: widget.lists
                     .map((e) => Provider(
                         create: (context) => ColapList(
-                            title: e.title,
-                            uid: e.uid,
-                            user1: e.user1,
-                            user2: e.user2),
+                            title: e.title, uid: e.uid, users: e.users),
                         builder: ((context, child) => UIColapList(
                               list: e,
                               onListDeleted: () {

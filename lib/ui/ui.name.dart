@@ -1,19 +1,22 @@
-import 'package:colap/services/database_name.dart';
-import 'package:colap/ui/ui.name.details.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:colap/models/colap_name.dart';
+import 'package:colap/services/database_name.dart';
+import 'package:colap/ui/ui.name.details.dart';
 
 class UIName extends StatefulWidget {
   final String nameId;
   final String listId;
   final String name;
+  final num averageGrade;
   const UIName({
     Key? key,
-    required this.name,
     required this.nameId,
     required this.listId,
+    required this.name,
+    required this.averageGrade,
   }) : super(key: key);
 
   @override
@@ -54,9 +57,23 @@ class _UINameState extends State<UIName> {
                   ),
                 ),
               )
-            : Text(
-                widget.name,
-                style: const TextStyle(fontSize: 20),
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.name,
+                      style: const TextStyle(fontSize: 20),
+                      overflow: TextOverflow.clip,
+                    ),
+                  ),
+                  RatingBarIndicator(
+                      itemSize: 35,
+                      itemBuilder: (context, _) =>
+                          const Icon(Icons.star, color: Colors.purpleAccent),
+                      itemCount: 5,
+                      rating: widget.averageGrade.toDouble()),
+                ],
               ),
         onTap: () => setState(() {
           details = !details;

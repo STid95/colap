@@ -47,7 +47,7 @@ class _UIColapListState extends State<UIColapList>
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 RoundButton(
                     onTap: () => createName(currentUser.name), icon: Icons.add),
-                if (widget.list.user2 == '')
+                if (list.users.length < 2)
                   RoundButton(onTap: () => addUser(list), icon: Icons.link)
               ]),
               if (listNamesToAdd.isNotEmpty) Column(children: listNamesToAdd),
@@ -107,7 +107,11 @@ class _NamesListViewState extends State<NamesListView> {
           shrinkWrap: true,
           children: widget.list.names
               .map((e) => UIName(
-                  name: e.name, nameId: e.uid!, listId: widget.list.uid!))
+                    name: e.name,
+                    nameId: e.uid!,
+                    listId: widget.list.uid!,
+                    averageGrade: e.averageGrade,
+                  ))
               .toList()),
     );
   }

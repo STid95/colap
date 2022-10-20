@@ -8,15 +8,13 @@ class ColapList {
   String? uid;
   String title;
   List<ColapName> names;
-  String user1;
-  String user2;
-  ColapList({
-    this.uid,
-    required this.title,
-    this.names = const [],
-    this.user1 = '',
-    this.user2 = '',
-  });
+  List<String> users;
+
+  ColapList(
+      {this.uid,
+      required this.title,
+      this.names = const [],
+      this.users = const []});
 
   DatabaseListService listService = DatabaseListService();
 
@@ -39,8 +37,7 @@ ColapList listFromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
   ColapList list = ColapList(
       uid: snapshot.id,
       title: snapshot['title'],
-      user1: snapshot['user_1'],
-      user2: snapshot['user_2']);
+      users: List<String>.from(snapshot['users']));
   return list;
 }
 

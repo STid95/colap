@@ -38,10 +38,21 @@ class _ListsScreenState extends State<ListsScreen> {
                   builder: (context, child) {
                     List<ColapList> lists =
                         Provider.of<List<ColapList>>(context);
-                    return ColapTabBar(
-                      lists: lists,
-                      createdListId: listId,
-                    );
+                    return (listId != null &&
+                            lists
+                                .where((element) => element.uid == listId)
+                                .isEmpty)
+                        ? const Align(
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                                width: 200,
+                                height: 200,
+                                child: CircularProgressIndicator()),
+                          )
+                        : ColapTabBar(
+                            lists: lists,
+                            createdListId: listId,
+                          );
                   })
               : const Align(
                   alignment: Alignment.center,
