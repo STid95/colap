@@ -18,31 +18,40 @@ class ListsScreen extends StatefulWidget {
 class _ListsScreenState extends State<ListsScreen> {
   @override
   Widget build(BuildContext context) {
-    ColapUser? user = Provider.of<ColapUser?>(context);
+    ColapUser? authUser = Provider.of<ColapUser?>(context);
     String? listId = ModalRoute.of(context)?.settings.arguments as String?;
-    if (user == null) {
+    if (authUser == null) {
       return const AuthenticateScreen();
     } else {
-      final databaseUser = DatabaseUserService(user.uid);
+      final databaseUser = DatabaseUserService(authUser.uid);
       return ColapPage(
-          child: StreamProvider<List<ColapList>>(
-              create: (context) => databaseUser.userList,
-              initialData: const [],
-              builder: (context, child) {
-                List<ColapList> lists = Provider.of<List<ColapList>>(context);
-                return lists.isEmpty
-                    ? const Align(
-                        alignment: Alignment.center,
-                        child: SizedBox(
-                            width: 200,
-                            height: 200,
-                            child: CircularProgressIndicator()),
-                      )
-                    : ColapTabBar(
-                        lists: Provider.of<List<ColapList>>(context),
-                        createdListId: listId,
-                      );
-              }));
+          child: StreamProvider<ColapUser>(
+        create: (context) {
+          return databaseUser.user;
+        },
+        initialData: authUser,
+        builder: (context, child) {
+          return Provider.of<ColapUser>(context).name != ''
+              ? StreamProvider<List<ColapList>>.value(
+                  value: Provider.of<ColapUser>(context).getLists(),
+                  initialData: const [],
+                  builder: (context, child) {
+                    List<ColapList> lists =
+                        Provider.of<List<ColapList>>(context);
+                    return ColapTabBar(
+                      lists: lists,
+                      createdListId: listId,
+                    );
+                  })
+              : const Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                      width: 200,
+                      height: 200,
+                      child: CircularProgressIndicator()),
+                );
+        },
+      ));
     }
   }
 }

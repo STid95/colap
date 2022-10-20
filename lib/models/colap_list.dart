@@ -24,20 +24,13 @@ class ColapList {
     listService.addName(uid!, name);
   }
 
+  void addUser(String userName) async {
+    listService.addUser(uid!, userName);
+  }
+
   void deleteList() async {
     listService.deleteList(uid!);
   }
-}
-
-ColapList userListFromSnapshot(
-    DocumentSnapshot<Map<String, dynamic>> snapshot) {
-  var data = snapshot.data();
-  if (data == null) throw Exception("list not found");
-  return ColapList(
-      uid: snapshot['uid'],
-      title: snapshot['title'],
-      user1: snapshot['user_1'],
-      user2: snapshot['user_2']);
 }
 
 ColapList listFromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
@@ -54,6 +47,6 @@ ColapList listFromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
 List<ColapList> allUserListsFromSnapshot(
     QuerySnapshot<Map<String, dynamic>> snapshot) {
   return snapshot.docs.map((doc) {
-    return userListFromSnapshot(doc);
+    return listFromSnapshot(doc);
   }).toList();
 }

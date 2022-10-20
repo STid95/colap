@@ -1,30 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../models/colap_list.dart';
-import '../models/colap_user.dart';
 import '../services/database_list.dart';
-import '../services/database_user.dart';
 
-Future<void> listDialog(BuildContext context) {
+Future<void> listDialog(BuildContext context, String userName) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
-      return const CreateListDialog();
+      return CreateListDialog(
+        userName: userName,
+      );
     },
   );
 }
 
 class CreateListDialog extends StatelessWidget {
-  const CreateListDialog({super.key});
+  final String userName;
+  const CreateListDialog({
+    Key? key,
+    required this.userName,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ColapUser user = Provider.of<ColapUser>(context);
     TextEditingController listName = TextEditingController();
     final formKey = GlobalKey<FormState>();
     final databaseList = DatabaseListService();
-    final databaseUser = DatabaseUserService(user.uid);
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
     return Dialog(
@@ -59,9 +60,8 @@ class CreateListDialog extends StatelessWidget {
                     onPressed: () async {
                       if (formKey.currentState?.validate() == true) {
                         ColapList? list = await databaseList.createList(
-                            listName.text, user.name);
+                            listName.text, userName);
                         if (list != null) {
-                          databaseUser.addList(list, user);
                           navigator.pushNamed("/lists", arguments: list.uid);
                         } else {
                           messenger.showSnackBar(const SnackBar(

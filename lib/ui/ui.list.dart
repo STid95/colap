@@ -1,3 +1,5 @@
+import 'package:colap/commons/ui.commons.dart';
+import 'package:colap/ui/ui.add.user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,75 +33,58 @@ class _UIColapListState extends State<UIColapList>
   @override
   Widget build(BuildContext context) {
     ColapUser currentUser = Provider.of<ColapUser>(context, listen: false);
-
     super.build(context);
-    return Provider(
-      create: (context) => ColapList(
-          title: widget.list.title,
-          uid: widget.list.uid,
-          user1: widget.list.user1,
-          user2: widget.list.user2),
-      child: StreamProvider<List<ColapName>>.value(
-        value: Provider.of<DatabaseListService>(context)
-            .getNames(widget.list.uid!),
-        initialData: const [],
-        builder: (context, child) {
-          widget.list.names = Provider.of<List<ColapName>>(context);
-          return Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(children: [
-                Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ClipOval(
-                          child: Material(
-                            color: Colors.deepPurple,
-                            child: InkWell(
-                              onTap: () {
-                                ValueKey key = ValueKey(listNamesToAdd.length);
-                                setState(() {
-                                  listNamesToAdd.add(UICreationName(
-                                    userName: currentUser.name,
-                                    key: key,
-                                    onValidate: (name) {
-                                      setState(() {
-                                        widget.list.addName(name);
-                                        listNamesToAdd.removeWhere(
-                                            (element) => element.key == key);
-                                      });
-                                    },
-                                    onCancel: () => setState(() {
-                                      listNamesToAdd.removeWhere(
-                                          (element) => element.key == key);
-                                    }),
-                                  ));
-                                });
-                              },
-                              child: const SizedBox(
-                                  width: 40,
-                                  height: 40,
-                                  child: Icon(
-                                    Icons.add,
-                                    size: 30,
-                                    color: Colors.white,
-                                  )),
-                            ),
-                          ),
-                        ))),
-                if (listNamesToAdd.isNotEmpty) Column(children: listNamesToAdd),
-                Expanded(child: NamesListView(list: widget.list)),
-                ElevatedButton(
-                    onPressed: () {
-                      widget.list.deleteList();
-                      currentUser.deleteList(widget.list.uid!);
-                      widget.onListDeleted();
-                    },
-                    child: const Text("Supprimer la liste")),
-              ]));
-        },
-      ),
+    return StreamProvider<List<ColapName>>.value(
+      value:
+          Provider.of<DatabaseListService>(context).getNames(widget.list.uid!),
+      initialData: const [],
+      builder: (context, child) {
+        final list = Provider.of<ColapList>(context);
+        list.names = Provider.of<List<ColapName>>(context);
+        return Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                RoundButton(
+                    onTap: () => createName(currentUser.name), icon: Icons.add),
+                if (widget.list.user2 == '')
+                  RoundButton(onTap: () => addUser(list), icon: Icons.link)
+              ]),
+              if (listNamesToAdd.isNotEmpty) Column(children: listNamesToAdd),
+              Expanded(child: NamesListView(list: list)),
+              ElevatedButton(
+                  onPressed: () {
+                    list.deleteList();
+                    currentUser.deleteList(list.uid!);
+                    widget.onListDeleted();
+                  },
+                  child: const Text("Supprimer la liste")),
+            ]));
+      },
     );
+  }
+
+  void createName(String userName) {
+    ValueKey key = ValueKey(listNamesToAdd.length);
+    setState(() {
+      listNamesToAdd.add(UICreationName(
+        userName: userName,
+        key: key,
+        onValidate: (name) {
+          setState(() {
+            widget.list.addName(name);
+            listNamesToAdd.removeWhere((element) => element.key == key);
+          });
+        },
+        onCancel: () => setState(() {
+          listNamesToAdd.removeWhere((element) => element.key == key);
+        }),
+      ));
+    });
+  }
+
+  void addUser(ColapList list) {
+    showUserDialog(context, list);
   }
 }
 

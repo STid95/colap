@@ -21,6 +21,10 @@ class DatabaseListService {
     await listCollection.doc(uid).set({'names': names ?? []});
   }
 
+  Future<void> addUser(String uid, String userName) async {
+    await listCollection.doc(uid).update({'user_2': userName});
+  }
+
   Future<void> deleteList(String uid) async {
     listCollection.doc(uid).delete();
   }

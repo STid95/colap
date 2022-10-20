@@ -26,27 +26,13 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                    if (user!.hasList)
-                      ElevatedButton(
-                          onPressed: (() =>
-                              Navigator.pushNamed(context, "/lists")),
-                          child: const Text("Accéder à mes listes")),
+                    ElevatedButton(
+                        onPressed: (() =>
+                            Navigator.pushNamed(context, "/lists")),
+                        child: const Text("Accéder à mes listes")),
                     ElevatedButton(
                         onPressed: () {
-                          listDialog(context);
-                          /* final messenger =
-                                        ScaffoldMessenger.of(context);
-                                    ColapList? list = await databaseList
-                                        .createList("Test 2", user!.name);
-                                    if (list != null) {
-                                      databaseUser.addList(list, user!);
-                                      Navigator.pushNamed(context, "/lists",
-                                          arguments: list.uid);
-                                    } else {
-                                      messenger.showSnackBar(const SnackBar(
-                                          content: Text(
-                                              "Une erreur s'est produite")));
-                                    } */
+                          listDialog(context, user!.name);
                         },
                         child: const Text("Créer une nouvelle liste"))
                   ]));

@@ -1,5 +1,6 @@
 import 'package:colap/ui/ui.list.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/colap_list.dart';
 
@@ -64,13 +65,19 @@ class _ColapTabBarState extends State<ColapTabBar>
             child: TabBarView(
                 controller: _tabController,
                 children: widget.lists
-                    .map((e) => UIColapList(
-                          list: e,
-                          onListDeleted: () {
-                            _tabController = TabController(
-                                length: widget.lists.length, vsync: this);
-                          },
-                        ))
+                    .map((e) => Provider(
+                        create: (context) => ColapList(
+                            title: e.title,
+                            uid: e.uid,
+                            user1: e.user1,
+                            user2: e.user2),
+                        builder: ((context, child) => UIColapList(
+                              list: e,
+                              onListDeleted: () {
+                                _tabController = TabController(
+                                    length: widget.lists.length, vsync: this);
+                              },
+                            ))))
                     .toList()))
       ]),
     );
