@@ -1,4 +1,5 @@
 import 'package:colap/commons/colap.page.dart';
+import 'package:colap/commons/ui.commons.dart';
 import 'package:colap/models/colap_user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,15 +27,23 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                    ElevatedButton(
+                    const ColapSvg(
+                      asset: "family",
+                      size: 300,
+                    ),
+                    Text("Comment on l'appelle ?",
+                        style: Theme.of(context).textTheme.headline2),
+                    ColapIconButton(
+                        icon: Icons.view_list,
                         onPressed: (() =>
                             Navigator.pushNamed(context, "/lists")),
-                        child: const Text("Accéder à mes listes")),
-                    ElevatedButton(
+                        text: "Accéder à mes listes"),
+                    ColapIconButton(
+                        icon: Icons.add_circle_outline,
                         onPressed: () {
                           listDialog(context, user!.name);
                         },
-                        child: const Text("Créer une nouvelle liste"))
+                        text: "Créer une nouvelle liste")
                   ]));
             }));
   }

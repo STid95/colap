@@ -1,3 +1,4 @@
+import 'package:colap/commons/ui.commons.dart';
 import 'package:colap/ui/ui.rating.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,11 +43,10 @@ class _UICreationNameState extends State<UICreationName> {
         }
       },
       child: SizedBox(
-        height: 350,
+        height: 400,
         child: loading
             ? const CircularProgressIndicator()
             : Card(
-                shadowColor: Colors.purple,
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Form(
@@ -61,9 +61,8 @@ class _UICreationNameState extends State<UICreationName> {
                             nameValidated
                                 ? Text(
                                     nameController.text,
-                                    style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
                                   )
                                 : Expanded(
                                     child: TextFormField(
@@ -90,6 +89,7 @@ class _UICreationNameState extends State<UICreationName> {
                           ],
                         ),
                         UIRating(
+                            itemSize: 50,
                             initialRating: 0,
                             onUpdate: (rating) {
                               if (widget.userName == list.users[0]) {
@@ -108,16 +108,20 @@ class _UICreationNameState extends State<UICreationName> {
                           maxLines: null,
                           controller: commentController,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Wrap(
+                          alignment: WrapAlignment.spaceBetween,
+                          spacing: 10,
+                          runSpacing: 10,
                           children: [
-                            ElevatedButton(
+                            ColapIconButton(
+                              icon: Icons.cancel_presentation,
                               onPressed: () {
                                 widget.onCancel();
                               },
-                              child: const Text("Annuler"),
+                              text: "Annuler",
                             ),
-                            ElevatedButton(
+                            ColapIconButton(
+                              icon: Icons.check_circle_outline,
                               onPressed: () {
                                 if (_formKey.currentState?.validate() == true) {
                                   setState(() {
@@ -138,7 +142,7 @@ class _UICreationNameState extends State<UICreationName> {
                                   });
                                 }
                               },
-                              child: const Text("OK"),
+                              text: "OK",
                             ),
                           ],
                         ),

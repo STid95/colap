@@ -32,7 +32,6 @@ class _UINameState extends State<UIName> {
       child: GestureDetector(
         child: details
             ? Card(
-                shadowColor: Colors.purple,
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Column(
@@ -63,16 +62,18 @@ class _UINameState extends State<UIName> {
                   Expanded(
                     child: Text(
                       widget.name,
-                      style: const TextStyle(fontSize: 20),
+                      style: Theme.of(context).textTheme.headline5,
                       overflow: TextOverflow.clip,
                     ),
                   ),
-                  RatingBarIndicator(
-                      itemSize: 35,
-                      itemBuilder: (context, _) =>
-                          const Icon(Icons.star, color: Colors.purpleAccent),
-                      itemCount: 5,
-                      rating: widget.averageGrade.toDouble()),
+                  Hero(
+                    tag: widget.name,
+                    child: RatingBarIndicator(
+                        itemSize: 35,
+                        itemBuilder: (context, _) => const Icon(Icons.star),
+                        itemCount: 5,
+                        rating: widget.averageGrade.toDouble()),
+                  ),
                 ],
               ),
         onTap: () => setState(() {

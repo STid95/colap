@@ -50,12 +50,12 @@ class _ColapTabBarState extends State<ColapTabBar>
           isScrollable: true,
           indicator: BoxDecoration(
               borderRadius: BorderRadius.circular(80), // Creates border
-              color: const Color.fromARGB(255, 193, 172, 230)),
+              color: Theme.of(context).colorScheme.secondary),
           tabs: widget.lists
               .map((e) => Tab(
                     child: Text(
                       e.title,
-                      style: const TextStyle(fontSize: 20, color: Colors.black),
+                      style: Theme.of(context).textTheme.headline2,
                     ),
                   ))
               .toList(),

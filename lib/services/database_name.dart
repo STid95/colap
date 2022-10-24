@@ -41,12 +41,13 @@ class DatabaseNameListService {
         .update({'comment': comment});
   }
 
-  Stream<List<ColapName>> getListNames(String listUid) {
+  Stream<List<ColapName>> getListNames(
+      String listUid, String orderBy, bool desc) {
     final namesCollection = FirebaseFirestore.instance
         .collection("lists")
         .doc(listUid)
         .collection("names")
-        .orderBy('average_grade', descending: true);
+        .orderBy(orderBy, descending: desc);
     return namesCollection.snapshots().map(allNamesFromSnapshot);
   }
 

@@ -16,11 +16,14 @@ class ColapPage extends StatelessWidget {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
+            toolbarHeight: 80,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () => Navigator.pushNamed(context, "/"),
             ),
-            title: const Text("Colap"),
+            title: Text("Colap",
+                style: Theme.of(context).textTheme.headline1?.copyWith(
+                    color: Theme.of(context).colorScheme.background)),
             actions: [
               IconButton(
                   onPressed: () {

@@ -19,10 +19,6 @@ class DatabaseListService {
     return ColapList(title: title, names: [], uid: uid);
   }
 
-  Future<void> saveList(String uid, {List<ColapName>? names}) async {
-    await listCollection.doc(uid).set({'names': names ?? []});
-  }
-
   Future<void> addUser(String uid, String userName) async {
     await listCollection.doc(uid).update({
       'users': FieldValue.arrayUnion([userName])
@@ -39,7 +35,8 @@ class DatabaseListService {
       'grade_1': name.grade1,
       'grade_2': name.grade2,
       'comment': name.comment,
-      'average_grade': name.averageGrade
+      'average_grade': name.averageGrade,
+      'added_at': Timestamp.now()
     });
   }
 
@@ -47,10 +44,10 @@ class DatabaseListService {
     return listCollection.doc(uid).snapshots().map(listFromSnapshot);
   }
 
-  Stream<List<ColapName>> getNames(String uid) {
+  Stream<List<ColapName>> getNames(String uid, String orderBy, bool desc) {
     final DatabaseNameListService databaseNameListService =
         DatabaseNameListService();
 
-    return databaseNameListService.getListNames(uid);
+    return databaseNameListService.getListNames(uid, orderBy, desc);
   }
 }

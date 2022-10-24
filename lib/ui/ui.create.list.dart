@@ -1,3 +1,4 @@
+import 'package:colap/commons/ui.commons.dart';
 import 'package:flutter/material.dart';
 
 import '../models/colap_list.dart';
@@ -30,46 +31,50 @@ class CreateListDialog extends StatelessWidget {
     final navigator = Navigator.of(context);
     return Dialog(
       child: SizedBox(
-        height: 200,
+        height: 450,
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Créer une nouvelle liste"),
+                Text("Créer une nouvelle liste",
+                    style: Theme.of(context).textTheme.subtitle1),
+                const ColapSvg(
+                  asset: "list",
+                  size: 180,
+                ),
                 Form(
                   key: formKey,
-                  child: Row(
+                  child: Column(
                     children: [
                       const Text("Nom de la liste"),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: TextFormField(
-                            controller: listName,
-                            validator: (value) => value == null || value.isEmpty
-                                ? "Indiquez un nom de liste"
-                                : null,
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: TextFormField(
+                          controller: listName,
+                          validator: (value) => value == null || value.isEmpty
+                              ? "Indiquez un nom de liste"
+                              : null,
                         ),
                       )
                     ],
                   ),
                 ),
-                ElevatedButton(
-                    onPressed: () async {
-                      if (formKey.currentState?.validate() == true) {
-                        ColapList? list = await databaseList.createList(
-                            listName.text, userName);
-                        if (list != null) {
-                          navigator.pushNamed("/lists", arguments: list.uid);
-                        } else {
-                          messenger.showSnackBar(const SnackBar(
-                              content: Text("Une erreur s'est produite")));
-                        }
+                ColapButton(
+                  text: "Valider",
+                  onPressed: () async {
+                    if (formKey.currentState?.validate() == true) {
+                      ColapList? list = await databaseList.createList(
+                          listName.text, userName);
+                      if (list != null) {
+                        navigator.pushNamed("/lists", arguments: list.uid);
+                      } else {
+                        messenger.showSnackBar(const SnackBar(
+                            content: Text("Une erreur s'est produite")));
                       }
-                    },
-                    child: const Text("OK")),
+                    }
+                  },
+                ),
               ]),
         ),
       ),

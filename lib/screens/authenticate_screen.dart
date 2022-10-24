@@ -1,7 +1,7 @@
+import 'package:colap/commons/ui.commons.dart';
 import 'package:colap/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
-import '../commons/constants.dart';
 import '../services/database_user.dart';
 
 class AuthenticateScreen extends StatefulWidget {
@@ -50,9 +50,12 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
         : Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
-              backgroundColor: Colors.deepPurpleAccent,
               elevation: 0.0,
-              title: Text(showSignIn ? 'Se connecter' : 'Créer un compte'),
+              title: Text(showSignIn ? 'Se connecter' : 'Créer un compte',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: Colors.white)),
               actions: <Widget>[
                 TextButton.icon(
                   icon: const Icon(
@@ -60,7 +63,10 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                     color: Colors.white,
                   ),
                   label: Text(showSignIn ? "S'inscrire" : 'Se connecter',
-                      style: const TextStyle(color: Colors.white)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: Colors.white)),
                   onPressed: () => toggleView(),
                 ),
               ],
@@ -71,41 +77,48 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
               child: Form(
                 key: _formKey,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    if (!showSignIn)
-                      TextFormField(
-                        controller: nameController,
-                        decoration:
-                            textInputDecoration.copyWith(hintText: 'Pseudo'),
-                        validator: (value) => value == null || value.isEmpty
-                            ? "Entrez un pseudo"
-                            : null,
-                      ),
-                    !showSignIn ? const SizedBox(height: 10.0) : Container(),
-                    TextFormField(
-                      controller: emailController,
-                      decoration:
-                          textInputDecoration.copyWith(hintText: 'Email'),
-                      validator: (value) => value == null || value.isEmpty
-                          ? "Entrez un email"
-                          : null,
+                    ColapSvg(
+                      asset: !showSignIn ? "register" : "login",
+                      size: 300,
                     ),
-                    const SizedBox(height: 10.0),
-                    TextFormField(
-                      controller: passwordController,
-                      decoration: textInputDecoration.copyWith(
-                          hintText: 'Mot de passe'),
-                      obscureText: true,
-                      validator: (value) => value != null && value.length < 6
-                          ? "Le mot de passe doit être de 6 caractères minimum"
-                          : null,
+                    Column(
+                      children: [
+                        if (!showSignIn)
+                          TextFormField(
+                            controller: nameController,
+                            decoration:
+                                const InputDecoration(hintText: 'Pseudo'),
+                            validator: (value) => value == null || value.isEmpty
+                                ? "Entrez un pseudo"
+                                : null,
+                          ),
+                        !showSignIn
+                            ? const SizedBox(height: 10.0)
+                            : Container(),
+                        TextFormField(
+                          controller: emailController,
+                          decoration: const InputDecoration(hintText: 'Email'),
+                          validator: (value) => value == null || value.isEmpty
+                              ? "Entrez un email"
+                              : null,
+                        ),
+                        const SizedBox(height: 10.0),
+                        TextFormField(
+                          controller: passwordController,
+                          decoration:
+                              const InputDecoration(hintText: 'Mot de passe'),
+                          obscureText: true,
+                          validator: (value) => value != null &&
+                                  value.length < 6
+                              ? "Le mot de passe doit être de 6 caractères minimum"
+                              : null,
+                        )
+                      ],
                     ),
-                    const SizedBox(height: 10.0),
-                    ElevatedButton(
-                      child: Text(
-                        showSignIn ? "Se connecter" : "S'inscrire",
-                        style: const TextStyle(color: Colors.white),
-                      ),
+                    ColapButton(
+                      text: showSignIn ? "Se connecter" : "S'inscrire",
                       onPressed: () async {
                         if (_formKey.currentState?.validate() == true) {
                           setState(() => loading = true);

@@ -1,3 +1,4 @@
+import 'package:colap/commons/ui.commons.dart';
 import 'package:colap/models/colap_user.dart';
 import 'package:colap/services/database_user.dart';
 import 'package:flutter/material.dart';
@@ -36,13 +37,18 @@ class _AddUserDialogState extends State<AddUserDialog> {
 
     return Dialog(
       child: SizedBox(
-        height: 250,
+        height: 450,
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Partager la liste"),
+                Text("Inviter quelqu'un à rejoindre la liste",
+                    style: Theme.of(context).textTheme.subtitle1),
+                const ColapSvg(
+                  asset: "link",
+                  size: 180,
+                ),
                 const Text("Nom de l'utilisateur.ice à ajouter à la liste"),
                 TextFormField(
                   controller: userName,
@@ -50,20 +56,21 @@ class _AddUserDialogState extends State<AddUserDialog> {
                 if (error)
                   const Text("Utilisateur.ice non trouvé.e !",
                       style: TextStyle(color: Colors.red)),
-                ElevatedButton(
-                    onPressed: () async {
-                      final foundUser =
-                          await databaseUser.searchByUserName(userName.text);
-                      if (foundUser == null) {
-                        setState(() {
-                          error = true;
-                        });
-                      } else {
-                        widget.list.addUser(foundUser.name);
-                        navigator.pop();
-                      }
-                    },
-                    child: const Text("OK")),
+                ColapButton(
+                  text: "Ajouter",
+                  onPressed: () async {
+                    final foundUser =
+                        await databaseUser.searchByUserName(userName.text);
+                    if (foundUser == null) {
+                      setState(() {
+                        error = true;
+                      });
+                    } else {
+                      widget.list.addUser(foundUser.name);
+                      navigator.pop();
+                    }
+                  },
+                ),
               ]),
         ),
       ),

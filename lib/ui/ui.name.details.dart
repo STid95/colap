@@ -42,15 +42,17 @@ class _UINameDetailsState extends State<UINameDetails> {
         ),
         const SizedBox(height: 10),
         Row(children: [
-          Text(widget.name.name, style: const TextStyle(fontSize: 25))
+          Text(widget.name.name, style: Theme.of(context).textTheme.headline1)
         ]),
         const SizedBox(height: 10),
-        RatingBarIndicator(
-            itemSize: 50,
-            itemBuilder: (context, _) =>
-                const Icon(Icons.star, color: Colors.purpleAccent),
-            itemCount: 5,
-            rating: widget.name.averageGrade.toDouble()),
+        Hero(
+          tag: widget.name.name,
+          child: RatingBarIndicator(
+              itemSize: 50,
+              itemBuilder: (context, _) => const Icon(Icons.star),
+              itemCount: 5,
+              rating: widget.name.averageGrade.toDouble()),
+        ),
         const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,25 +60,25 @@ class _UINameDetailsState extends State<UINameDetails> {
             Expanded(
               child: Text(
                 list.users[0],
-                style: const TextStyle(fontSize: 13),
+                style: Theme.of(context).textTheme.subtitle1,
               ),
             ),
             const SizedBox(width: 10),
             SizedBox(
-                width: 180,
+                width: 150,
                 child: user.name == list.users[0]
                     ? UIRating(
+                        itemSize: 25,
                         initialRating: widget.name.grade1.toDouble(),
                         onUpdate: (rating) {
                           widget.name.grade1 = rating.toInt();
                           widget.name.updateRating1(list.uid!);
                         })
                     : RatingBarIndicator(
-                        itemSize: 30,
+                        itemSize: 25,
                         itemPadding:
                             const EdgeInsets.symmetric(horizontal: 2.0),
-                        itemBuilder: (context, _) =>
-                            const Icon(Icons.star, color: Colors.purpleAccent),
+                        itemBuilder: (context, _) => const Icon(Icons.star),
                         itemCount: 5,
                         rating: widget.name.grade1.toDouble())),
           ],
@@ -88,34 +90,32 @@ class _UINameDetailsState extends State<UINameDetails> {
               Expanded(
                 child: Text(
                   list.users[1],
-                  style: const TextStyle(fontSize: 13),
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
               ),
               const SizedBox(width: 10),
               SizedBox(
-                width: 180,
+                width: 150,
                 child: user.name == list.users[1]
                     ? UIRating(
+                        itemSize: 25,
                         initialRating: widget.name.grade2.toDouble(),
                         onUpdate: (rating) {
                           widget.name.grade2 = rating.toInt();
                           widget.name.updateRating2(list.uid!);
                         })
                     : RatingBarIndicator(
-                        itemSize: 30,
+                        itemSize: 25,
                         itemPadding:
                             const EdgeInsets.symmetric(horizontal: 2.0),
-                        itemBuilder: (context, _) =>
-                            const Icon(Icons.star, color: Colors.purpleAccent),
+                        itemBuilder: (context, _) => const Icon(Icons.star),
                         itemCount: 5,
                         rating: widget.name.grade2.toDouble()),
               )
             ],
           ),
-        const SizedBox(height: 20),
-        const Text("Commentaires"),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -136,7 +136,7 @@ class _UINameDetailsState extends State<UINameDetails> {
                     )
                   : Text(
                       widget.name.comment,
-                      style: const TextStyle(fontSize: 16),
+                      style: Theme.of(context).textTheme.bodyText1,
                     ),
               IconButton(
                   alignment: Alignment.centerRight,

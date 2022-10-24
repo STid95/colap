@@ -1,3 +1,11 @@
+import 'dart:convert';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:json_theme/json_theme.dart';
+import 'package:provider/provider.dart';
+
 import 'package:colap/models/colap_user.dart';
 import 'package:colap/screens/authenticate_screen.dart';
 import 'package:colap/screens/lists_screen.dart';
@@ -5,19 +13,24 @@ import 'package:colap/services/auth_service.dart';
 import 'package:colap/services/database_list.dart';
 import 'package:colap/services/database_name.dart';
 import 'package:colap/wrapper.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final themeStr = await rootBundle.loadString('assets/appainter_theme.json');
+  final themeJson = jsonDecode(themeStr);
+  final theme = ThemeDecoder.decodeThemeData(themeJson)!;
 
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MyApp(theme: theme));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final ThemeData theme;
+
+  const MyApp({
+    Key? key,
+    required this.theme,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -29,9 +42,7 @@ class MyApp extends StatelessWidget {
             create: (_) => AuthService().user, initialData: null),
       ],
       child: MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
-        ),
+        theme: theme,
         initialRoute: '/',
         routes: {
           '/': (context) => const SplashScreenWrapper(),

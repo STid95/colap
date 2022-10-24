@@ -29,14 +29,15 @@ class _UIColapListState extends State<UIColapList>
   @override
   bool get wantKeepAlive => true;
   List<UICreationName> listNamesToAdd = [];
-
+  String orderBy = "added_at";
+  bool desc = true;
   @override
   Widget build(BuildContext context) {
     ColapUser currentUser = Provider.of<ColapUser>(context, listen: false);
     super.build(context);
     return StreamProvider<List<ColapName>>.value(
-      value:
-          Provider.of<DatabaseListService>(context).getNames(widget.list.uid!),
+      value: Provider.of<DatabaseListService>(context)
+          .getNames(widget.list.uid!, orderBy, desc),
       initialData: const [],
       builder: (context, child) {
         final list = Provider.of<ColapList>(context);
@@ -50,6 +51,35 @@ class _UIColapListState extends State<UIColapList>
                   Column(
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          RoundButton(
+                              onTap: () => changeDesc(),
+                              icon: desc
+                                  ? Icons.arrow_downward
+                                  : Icons.arrow_upward),
+                          DropdownButton<OrderBy>(
+                              underline: Container(),
+                              icon: const Icon(
+                                Icons.sort,
+                                size: 30,
+                              ),
+                              items: OrderBy.values
+                                  .map<DropdownMenuItem<OrderBy>>(
+                                      (OrderBy choice) {
+                                return DropdownMenuItem<OrderBy>(
+                                  value: choice,
+                                  child: Text(choice.displayName),
+                                );
+                              }).toList(),
+                              onChanged: (OrderBy? choice) {
+                                if (choice != null) {
+                                  orderList(choice);
+                                }
+                              }),
+                        ],
+                      ),
+                      Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             RoundButton(
@@ -59,21 +89,28 @@ class _UIColapListState extends State<UIColapList>
                               RoundButton(
                                   onTap: () => addUser(list), icon: Icons.link)
                           ]),
-                      if (listNamesToAdd.isNotEmpty)
-                        Column(children: listNamesToAdd),
                       SizedBox(
-                          height: 450,
+                          height: 400,
                           child: SingleChildScrollView(
-                              child: NamesListView(list: list))),
+                              child: Column(
+                            children: [
+                              if (listNamesToAdd.isNotEmpty)
+                                Column(children: listNamesToAdd),
+                              NamesListView(list: list),
+                            ],
+                          ))),
                     ],
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        list.deleteList();
-                        currentUser.deleteList(list.uid!);
-                        widget.onListDeleted();
-                      },
-                      child: const Text("Supprimer la liste")),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: ColapIconButton(
+                        icon: Icons.delete_sweep,
+                        onPressed: () {
+                          list.deleteList();
+                          widget.onListDeleted();
+                        },
+                        text: "Supprimer la liste"),
+                  ),
                 ]));
       },
     );
@@ -100,6 +137,18 @@ class _UIColapListState extends State<UIColapList>
 
   void addUser(ColapList list) {
     showUserDialog(context, list);
+  }
+
+  void orderList(OrderBy newOrder) {
+    setState(() {
+      orderBy = newOrder.field;
+    });
+  }
+
+  void changeDesc() {
+    setState(() {
+      desc = !desc;
+    });
   }
 }
 
@@ -129,4 +178,17 @@ class _NamesListViewState extends State<NamesListView> {
                 ))
             .toList());
   }
+}
+
+enum OrderBy {
+  average("Moyenne globale", "average_grade"),
+  grade1("Notes personne 1", "grade_1"),
+  grade2("Notes personne 2", "grade_2"),
+  alpha("Ordre alphabétique", "name"),
+  time("Ordre chronologique", "added_at"),
+  ;
+
+  const OrderBy(this.displayName, this.field);
+  final String displayName;
+  final String field;
 }
