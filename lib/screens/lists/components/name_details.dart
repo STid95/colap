@@ -6,6 +6,7 @@ import 'package:colap/models/colap_list.dart';
 import 'package:colap/models/colap_name.dart';
 
 import '../../../models/colap_user.dart';
+import 'dialogs/remove_dialog.dart';
 import 'user_grade.dart';
 
 class NameDetails extends StatefulWidget {
@@ -36,8 +37,10 @@ class _NameDetailsState extends State<NameDetails> {
           child: InkWell(
             child: const Icon(Icons.delete),
             onTap: () {
-              widget.onDelete();
-              widget.name.remove(list.uid!);
+              showRemoveDialog(context, (() {
+                widget.onDelete();
+                widget.name.remove(list.uid!);
+              }));
             },
           ),
         ),
@@ -47,7 +50,7 @@ class _NameDetailsState extends State<NameDetails> {
         ]),
         const SizedBox(height: 10),
         Hero(
-          tag: widget.name.name,
+          tag: widget.name.uid!,
           child: RatingBarIndicator(
               itemSize: 50,
               itemBuilder: (context, _) => const Icon(Icons.star),

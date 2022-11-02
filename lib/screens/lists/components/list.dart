@@ -1,4 +1,5 @@
 import 'package:colap/commons/ui.commons.dart';
+import 'package:colap/screens/lists/components/dialogs/remove_dialog.dart';
 import 'package:colap/screens/lists/components/dropdown_order.dart';
 import 'package:colap/screens/lists/components/dialogs/add_user_dialog.dart';
 import 'package:flutter/material.dart';
@@ -90,8 +91,11 @@ class _UIColapListState extends State<UIColapList>
                     child: ColapIconButton(
                         icon: Icons.delete_sweep,
                         onPressed: () {
-                          list.deleteList();
-                          widget.onListDeleted();
+                          showRemoveDialog(context, (() {
+                            list.deleteList();
+                            widget.onListDeleted();
+                            Navigator.pop(context);
+                          }));
                         },
                         text: "Supprimer la liste"),
                   ),

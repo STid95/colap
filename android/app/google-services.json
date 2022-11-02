@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "38564266820-vrhvq0bse122kge4vn0jitumdiccm2bv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.colap",
+            "certificate_hash": "f5daed52adb7e22a4c2186ca4cee6cd0aa1be64b"
+          }
+        },
+        {
           "client_id": "38564266820-ml73v5o5d9pf7dr5djo793qv9q6incut.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -67,7 +67,7 @@ class _NamePreviewState extends State<NamePreview> {
                     ),
                   ),
                   Hero(
-                    tag: widget.name,
+                    tag: widget.nameId,
                     child: RatingBarIndicator(
                         itemSize: 35,
                         itemBuilder: (context, _) => const Icon(Icons.star),

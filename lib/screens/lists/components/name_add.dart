@@ -115,13 +115,6 @@ class _AddNameState extends State<AddName> {
                             runSpacing: 20,
                             children: [
                               ColapIconButton(
-                                icon: Icons.cancel_presentation,
-                                onPressed: () {
-                                  widget.onCancel();
-                                },
-                                text: "Annuler",
-                              ),
-                              ColapIconButton(
                                 icon: Icons.check_circle_outline,
                                 onPressed: () {
                                   if (_formKey.currentState?.validate() ==
@@ -130,6 +123,13 @@ class _AddNameState extends State<AddName> {
                                   }
                                 },
                                 text: "OK",
+                              ),
+                              ColapIconButton(
+                                icon: Icons.cancel_presentation,
+                                onPressed: () {
+                                  widget.onCancel();
+                                },
+                                text: "Annuler",
                               ),
                             ],
                           ),

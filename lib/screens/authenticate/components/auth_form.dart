@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
 
 import '../../../commons/ui.commons.dart';
 import '../../../services/auth_service.dart';
@@ -97,6 +99,15 @@ class _AuthFormState extends State<AuthForm> {
                     }
                   },
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SignInButton(Buttons.Google,
+                    text: "Connexion avec google",
+                    onPressed: (() async => await _auth.signInwithGoogle())),
+                SignInButton(Buttons.Facebook,
+                    text: "Connexion",
+                    onPressed: (() async => _auth.signInwithFacebook())),
                 const SizedBox(height: 20),
                 Text(
                   error,
