@@ -51,3 +51,16 @@ class DatabaseListService {
     return databaseNameListService.getListNames(uid, orderBy, desc);
   }
 }
+
+enum OrderBy {
+  average("Moyenne globale", "average_grade"),
+  grade1("Notes personne 1", "grade_1"),
+  grade2("Notes personne 2", "grade_2"),
+  alpha("Ordre alphabétique", "name"),
+  time("Ordre chronologique", "added_at"),
+  ;
+
+  const OrderBy(this.displayName, this.field);
+  final String displayName;
+  final String field;
+}

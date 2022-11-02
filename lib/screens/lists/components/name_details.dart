@@ -1,26 +1,27 @@
-import 'package:colap/models/colap_list.dart';
-import 'package:colap/models/colap_name.dart';
-import 'package:colap/ui/ui.rating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
-import '../models/colap_user.dart';
+import 'package:colap/models/colap_list.dart';
+import 'package:colap/models/colap_name.dart';
 
-class UINameDetails extends StatefulWidget {
+import '../../../models/colap_user.dart';
+import 'user_grade.dart';
+
+class NameDetails extends StatefulWidget {
   final void Function() onDelete;
   final ColapName name;
-  const UINameDetails({
+  const NameDetails({
     Key? key,
     required this.name,
     required this.onDelete,
   }) : super(key: key);
 
   @override
-  State<UINameDetails> createState() => _UINameDetailsState();
+  State<NameDetails> createState() => _NameDetailsState();
 }
 
-class _UINameDetailsState extends State<UINameDetails> {
+class _NameDetailsState extends State<NameDetails> {
   bool edit = false;
   @override
   Widget build(BuildContext context) {
@@ -54,66 +55,15 @@ class _UINameDetailsState extends State<UINameDetails> {
               rating: widget.name.averageGrade.toDouble()),
         ),
         const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                list.users[0],
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-            ),
-            const SizedBox(width: 10),
-            SizedBox(
-                width: 150,
-                child: user.name == list.users[0]
-                    ? UIRating(
-                        itemSize: 25,
-                        initialRating: widget.name.grade1.toDouble(),
-                        onUpdate: (rating) {
-                          widget.name.grade1 = rating.toInt();
-                          widget.name.updateRating1(list.uid!);
-                        })
-                    : RatingBarIndicator(
-                        itemSize: 25,
-                        itemPadding:
-                            const EdgeInsets.symmetric(horizontal: 2.0),
-                        itemBuilder: (context, _) => const Icon(Icons.star),
-                        itemCount: 5,
-                        rating: widget.name.grade1.toDouble())),
-          ],
-        ),
-        if (list.users.length > 1)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  list.users[1],
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
-              ),
-              const SizedBox(width: 10),
-              SizedBox(
-                width: 150,
-                child: user.name == list.users[1]
-                    ? UIRating(
-                        itemSize: 25,
-                        initialRating: widget.name.grade2.toDouble(),
-                        onUpdate: (rating) {
-                          widget.name.grade2 = rating.toInt();
-                          widget.name.updateRating2(list.uid!);
-                        })
-                    : RatingBarIndicator(
-                        itemSize: 25,
-                        itemPadding:
-                            const EdgeInsets.symmetric(horizontal: 2.0),
-                        itemBuilder: (context, _) => const Icon(Icons.star),
-                        itemCount: 5,
-                        rating: widget.name.grade2.toDouble()),
-              )
-            ],
-          ),
+        Column(
+            children: list.users
+                .map((e) => UserGrade(
+                      list: list,
+                      currentUser: user,
+                      widget: widget,
+                      userGrade: e,
+                    ))
+                .toList()),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(

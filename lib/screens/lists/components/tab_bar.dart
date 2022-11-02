@@ -1,8 +1,8 @@
-import 'package:colap/ui/ui.list.dart';
+import 'package:colap/screens/lists/components/list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/colap_list.dart';
+import '../../../models/colap_list.dart';
 
 class ColapTabBar extends StatefulWidget {
   final String? createdListId;

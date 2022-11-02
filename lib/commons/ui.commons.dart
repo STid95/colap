@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 
 class RoundButton extends StatelessWidget {
@@ -20,8 +21,8 @@ class RoundButton extends StatelessWidget {
             child: InkWell(
               onTap: onTap,
               child: SizedBox(
-                  width: 40,
-                  height: 40,
+                  width: 35,
+                  height: 35,
                   child: Icon(
                     icon,
                     size: 30,
@@ -97,5 +98,41 @@ class ColapSvg extends StatelessWidget {
       width: size,
       child: svg,
     );
+  }
+}
+
+Widget circularProgress() {
+  return const Align(
+    alignment: Alignment.center,
+    child:
+        SizedBox(width: 200, height: 200, child: CircularProgressIndicator()),
+  );
+}
+
+class UIRating extends StatelessWidget {
+  final double itemSize;
+  final double initialRating;
+  final void Function(double rating) onUpdate;
+  const UIRating({
+    Key? key,
+    required this.itemSize,
+    required this.initialRating,
+    required this.onUpdate,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RatingBar.builder(
+        itemSize: itemSize,
+        initialRating: initialRating,
+        direction: Axis.horizontal,
+        allowHalfRating: false,
+        itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+        itemBuilder: (context, _) => const Icon(
+              Icons.star,
+            ),
+        onRatingUpdate: (rating) {
+          onUpdate(rating);
+        });
   }
 }

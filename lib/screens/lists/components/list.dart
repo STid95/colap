@@ -1,15 +1,16 @@
 import 'package:colap/commons/ui.commons.dart';
-import 'package:colap/ui/ui.add.user.dart';
+import 'package:colap/screens/lists/components/dropdown_order.dart';
+import 'package:colap/screens/lists/components/dialogs/add_user_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:colap/models/colap_list.dart';
 import 'package:colap/models/colap_name.dart';
 import 'package:colap/services/database_list.dart';
-import 'package:colap/ui/ui.creation.name.dart';
-import 'package:colap/ui/ui.name.dart';
+import 'package:colap/screens/lists/components/name_add.dart';
+import 'package:colap/screens/lists/components/name_preview.dart';
 
-import '../models/colap_user.dart';
+import '../../../models/colap_user.dart';
 
 class UIColapList extends StatefulWidget {
   final void Function() onListDeleted;
@@ -28,7 +29,7 @@ class _UIColapListState extends State<UIColapList>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  List<UICreationName> listNamesToAdd = [];
+  List<AddName> listNamesToAdd = [];
   String orderBy = "added_at";
   bool desc = true;
   @override
@@ -58,25 +59,8 @@ class _UIColapListState extends State<UIColapList>
                               icon: desc
                                   ? Icons.arrow_downward
                                   : Icons.arrow_upward),
-                          DropdownButton<OrderBy>(
-                              underline: Container(),
-                              icon: const Icon(
-                                Icons.sort,
-                                size: 30,
-                              ),
-                              items: OrderBy.values
-                                  .map<DropdownMenuItem<OrderBy>>(
-                                      (OrderBy choice) {
-                                return DropdownMenuItem<OrderBy>(
-                                  value: choice,
-                                  child: Text(choice.displayName),
-                                );
-                              }).toList(),
-                              onChanged: (OrderBy? choice) {
-                                if (choice != null) {
-                                  orderList(choice);
-                                }
-                              }),
+                          DropdownOrder(
+                              onChanged: (newOrder) => orderList(newOrder))
                         ],
                       ),
                       Row(
@@ -90,7 +74,7 @@ class _UIColapListState extends State<UIColapList>
                                   onTap: () => addUser(list), icon: Icons.link)
                           ]),
                       SizedBox(
-                          height: 400,
+                          height: MediaQuery.of(context).size.height * 0.45,
                           child: SingleChildScrollView(
                               child: Column(
                             children: [
@@ -119,7 +103,7 @@ class _UIColapListState extends State<UIColapList>
   void createName(String userName) {
     ValueKey key = ValueKey(listNamesToAdd.length);
     setState(() {
-      listNamesToAdd.add(UICreationName(
+      listNamesToAdd.add(AddName(
         userName: userName,
         key: key,
         onValidate: (name) {
@@ -170,7 +154,7 @@ class _NamesListViewState extends State<NamesListView> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         children: widget.list.names
-            .map((e) => UIName(
+            .map((e) => NamePreview(
                   name: e.name,
                   nameId: e.uid!,
                   listId: widget.list.uid!,
@@ -178,17 +162,4 @@ class _NamesListViewState extends State<NamesListView> {
                 ))
             .toList());
   }
-}
-
-enum OrderBy {
-  average("Moyenne globale", "average_grade"),
-  grade1("Notes personne 1", "grade_1"),
-  grade2("Notes personne 2", "grade_2"),
-  alpha("Ordre alphabétique", "name"),
-  time("Ordre chronologique", "added_at"),
-  ;
-
-  const OrderBy(this.displayName, this.field);
-  final String displayName;
-  final String field;
 }

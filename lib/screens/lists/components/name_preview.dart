@@ -4,14 +4,14 @@ import 'package:provider/provider.dart';
 
 import 'package:colap/models/colap_name.dart';
 import 'package:colap/services/database_name.dart';
-import 'package:colap/ui/ui.name.details.dart';
+import 'package:colap/screens/lists/components/name_details.dart';
 
-class UIName extends StatefulWidget {
+class NamePreview extends StatefulWidget {
   final String nameId;
   final String listId;
   final String name;
   final num averageGrade;
-  const UIName({
+  const NamePreview({
     Key? key,
     required this.nameId,
     required this.listId,
@@ -20,10 +20,10 @@ class UIName extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<UIName> createState() => _UINameState();
+  State<NamePreview> createState() => _NamePreviewState();
 }
 
-class _UINameState extends State<UIName> {
+class _NamePreviewState extends State<NamePreview> {
   bool details = false;
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class _UINameState extends State<UIName> {
                         initialData: ColapName(name: ''),
                         builder: (context, child) {
                           ColapName name = Provider.of<ColapName>(context);
-                          return UINameDetails(
+                          return NameDetails(
                             name: name,
                             onDelete: () => setState(() {
                               details = false;

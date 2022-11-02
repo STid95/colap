@@ -4,7 +4,7 @@ import 'package:colap/services/database_user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/colap_list.dart';
+import '../../../../models/colap_list.dart';
 
 Future<void> showUserDialog(BuildContext context, ColapList list) {
   return showDialog<void>(
@@ -59,21 +59,25 @@ class _AddUserDialogState extends State<AddUserDialog> {
                 ColapButton(
                   text: "Ajouter",
                   onPressed: () async {
-                    final foundUser =
-                        await databaseUser.searchByUserName(userName.text);
-                    if (foundUser == null) {
-                      setState(() {
-                        error = true;
-                      });
-                    } else {
-                      widget.list.addUser(foundUser.name);
-                      navigator.pop();
-                    }
+                    await searchAndAddUser(databaseUser, userName, navigator);
                   },
                 ),
               ]),
         ),
       ),
     );
+  }
+
+  Future<void> searchAndAddUser(DatabaseUserService databaseUser,
+      TextEditingController userName, NavigatorState navigator) async {
+    final foundUser = await databaseUser.searchByUserName(userName.text);
+    if (foundUser == null) {
+      setState(() {
+        error = true;
+      });
+    } else {
+      widget.list.addUser(foundUser.name);
+      navigator.pop();
+    }
   }
 }

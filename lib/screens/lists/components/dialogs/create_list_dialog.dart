@@ -1,8 +1,8 @@
 import 'package:colap/commons/ui.commons.dart';
 import 'package:flutter/material.dart';
 
-import '../models/colap_list.dart';
-import '../services/database_list.dart';
+import '../../../../models/colap_list.dart';
+import '../../../../services/database_list.dart';
 
 Future<void> listDialog(BuildContext context, String userName) {
   return showDialog<void>(
@@ -38,7 +38,10 @@ class CreateListDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Créer une nouvelle liste",
-                    style: Theme.of(context).textTheme.subtitle1),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .copyWith(fontWeight: FontWeight.bold)),
                 const ColapSvg(
                   asset: "list",
                   size: 180,
@@ -47,7 +50,8 @@ class CreateListDialog extends StatelessWidget {
                   key: formKey,
                   child: Column(
                     children: [
-                      const Text("Nom de la liste"),
+                      Text("Nom de la liste",
+                          style: Theme.of(context).textTheme.headline6),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: TextFormField(
@@ -63,21 +67,30 @@ class CreateListDialog extends StatelessWidget {
                 ColapButton(
                   text: "Valider",
                   onPressed: () async {
-                    if (formKey.currentState?.validate() == true) {
-                      ColapList? list = await databaseList.createList(
-                          listName.text, userName);
-                      if (list != null) {
-                        navigator.pushNamed("/lists", arguments: list.uid);
-                      } else {
-                        messenger.showSnackBar(const SnackBar(
-                            content: Text("Une erreur s'est produite")));
-                      }
-                    }
+                    await tryCreateList(
+                        formKey, databaseList, listName, navigator, messenger);
                   },
                 ),
               ]),
         ),
       ),
     );
+  }
+
+  Future<void> tryCreateList(
+      GlobalKey<FormState> formKey,
+      DatabaseListService databaseList,
+      TextEditingController listName,
+      NavigatorState navigator,
+      ScaffoldMessengerState messenger) async {
+    if (formKey.currentState?.validate() == true) {
+      ColapList? list = await databaseList.createList(listName.text, userName);
+      if (list != null) {
+        navigator.pushNamed("/lists", arguments: list.uid);
+      } else {
+        messenger.showSnackBar(
+            const SnackBar(content: Text("Une erreur s'est produite")));
+      }
+    }
   }
 }

@@ -1,18 +1,17 @@
 import 'package:colap/commons/ui.commons.dart';
-import 'package:colap/ui/ui.rating.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:colap/models/colap_list.dart';
 
-import '../models/colap_name.dart';
+import '../../../models/colap_name.dart';
 
-class UICreationName extends StatefulWidget {
+class AddName extends StatefulWidget {
   final void Function() onCancel;
   final Function(ColapName) onValidate;
   final String userName;
 
-  const UICreationName({
+  const AddName({
     Key? key,
     required this.onValidate,
     required this.userName,
@@ -20,10 +19,10 @@ class UICreationName extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<UICreationName> createState() => _UICreationNameState();
+  State<AddName> createState() => _AddNameState();
 }
 
-class _UICreationNameState extends State<UICreationName> {
+class _AddNameState extends State<AddName> {
   bool loading = false;
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
@@ -45,7 +44,7 @@ class _UICreationNameState extends State<UICreationName> {
       child: SizedBox(
         height: 400,
         child: loading
-            ? const CircularProgressIndicator()
+            ? circularProgress()
             : Card(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -89,7 +88,7 @@ class _UICreationNameState extends State<UICreationName> {
                           ],
                         ),
                         UIRating(
-                            itemSize: 50,
+                            itemSize: MediaQuery.of(context).size.width * 0.10,
                             initialRating: 0,
                             onUpdate: (rating) {
                               if (widget.userName == list.users[0]) {
@@ -108,43 +107,32 @@ class _UICreationNameState extends State<UICreationName> {
                           maxLines: null,
                           controller: commentController,
                         ),
-                        Wrap(
-                          alignment: WrapAlignment.spaceBetween,
-                          spacing: 10,
-                          runSpacing: 10,
-                          children: [
-                            ColapIconButton(
-                              icon: Icons.cancel_presentation,
-                              onPressed: () {
-                                widget.onCancel();
-                              },
-                              text: "Annuler",
-                            ),
-                            ColapIconButton(
-                              icon: Icons.check_circle_outline,
-                              onPressed: () {
-                                if (_formKey.currentState?.validate() == true) {
-                                  setState(() {
-                                    loading = true;
-                                  });
-                                  widget.onValidate(ColapName(
-                                      name: nameController.text,
-                                      grade1: grade1,
-                                      grade2: grade2,
-                                      comment: commentController.text,
-                                      averageGrade: grade1 != 0
-                                          ? grade1
-                                          : grade2 != 0
-                                              ? grade2
-                                              : 0));
-                                  setState(() {
-                                    loading = false;
-                                  });
-                                }
-                              },
-                              text: "OK",
-                            ),
-                          ],
+                        Center(
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            runAlignment: WrapAlignment.center,
+                            spacing: 20,
+                            runSpacing: 20,
+                            children: [
+                              ColapIconButton(
+                                icon: Icons.cancel_presentation,
+                                onPressed: () {
+                                  widget.onCancel();
+                                },
+                                text: "Annuler",
+                              ),
+                              ColapIconButton(
+                                icon: Icons.check_circle_outline,
+                                onPressed: () {
+                                  if (_formKey.currentState?.validate() ==
+                                      true) {
+                                    addName();
+                                  }
+                                },
+                                text: "OK",
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -153,5 +141,24 @@ class _UICreationNameState extends State<UICreationName> {
               ),
       ),
     );
+  }
+
+  void addName() {
+    setState(() {
+      loading = true;
+    });
+    widget.onValidate(ColapName(
+        name: nameController.text,
+        grade1: grade1,
+        grade2: grade2,
+        comment: commentController.text,
+        averageGrade: grade1 != 0
+            ? grade1
+            : grade2 != 0
+                ? grade2
+                : 0));
+    setState(() {
+      loading = false;
+    });
   }
 }

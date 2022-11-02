@@ -9,10 +9,7 @@ class ColapUser {
   List<ColapList>? lists;
   ColapUser({this.uid = '', this.email = '', this.name = ''});
 
-  void deleteList(String listUid) async {
-    DatabaseUserService userService = DatabaseUserService(uid);
-    userService.deleteList(listUid);
-  }
+
 
   Stream<List<ColapList>> getLists() {
     DatabaseUserService userService = DatabaseUserService(uid);

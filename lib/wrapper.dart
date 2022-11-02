@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:colap/models/colap_user.dart';
-import 'package:colap/screens/authenticate_screen.dart';
+import 'package:colap/screens/authenticate/authenticate_screen.dart';
 
 class SplashScreenWrapper extends StatelessWidget {
   const SplashScreenWrapper();

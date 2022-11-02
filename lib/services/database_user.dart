@@ -14,11 +14,8 @@ class DatabaseUserService {
   final listCollection = FirebaseFirestore.instance.collection("lists");
 
   Future<void> saveUser({required String name, required String email}) async {
-    await userCollection.doc(uid).set({'name': name, 'email': email});
-  }
-
-  Future<void> deleteList(String listUid) {
-    return userCollection.doc(uid).collection('lists').doc(listUid).delete();
+    await userCollection.doc(uid).set(
+        {'name': name, 'email': email, 'name_lowercase': name.toLowerCase()});
   }
 
   Future<void> saveToken(String? token) async {
@@ -51,7 +48,11 @@ class DatabaseUserService {
 }
 
 Future<bool> checkIfUserExist(String userName) async {
-  return userCollection.where("name", isEqualTo: userName).get().then((value) {
+  return userCollection
+      .where("name_lowercase", isEqualTo: userName)
+      .get()
+      .then((value) {
+    print(value.docs.length);
     if (value.docs.isNotEmpty) {
       return true;
     } else {

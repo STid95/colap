@@ -7,8 +7,8 @@ import 'package:json_theme/json_theme.dart';
 import 'package:provider/provider.dart';
 
 import 'package:colap/models/colap_user.dart';
-import 'package:colap/screens/authenticate_screen.dart';
-import 'package:colap/screens/lists_screen.dart';
+import 'package:colap/screens/authenticate/authenticate_screen.dart';
+import 'package:colap/screens/lists/lists_screen.dart';
 import 'package:colap/services/auth_service.dart';
 import 'package:colap/services/database_list.dart';
 import 'package:colap/services/database_name.dart';
