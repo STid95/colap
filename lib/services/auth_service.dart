@@ -30,45 +30,44 @@ class AuthService {
     }
   }
 
-  void signInwithFacebook() async {
-    fb.expressLogin();
-    final res = await fb.logIn(permissions: [
-      FacebookPermission.publicProfile,
-    ]);
-
-    print(res.status);
+  Future<ColapUser?> signInwithFacebook() async {
+    final res = await fb.logIn(permissions: [FacebookPermission.email]);
 
 // Check result status
     switch (res.status) {
       case FacebookLoginStatus.success:
         // Logged in
-
         // Send access token to server for validation and auth
         final FacebookAccessToken? accessToken = res.accessToken;
-        print('Access token: ${accessToken?.token}');
 
-        // Get profile data
-        final profile = await fb.getUserProfile();
-        print('Hello, ${profile?.name}! You ID: ${profile?.userId}');
+        if (accessToken != null) {
+          final AuthCredential credential =
+              FacebookAuthProvider.credential(accessToken.token);
+          final result = await _firebaseAuth.signInWithCredential(credential);
+          final user = result.user;
 
-        // Get user profile image url
-        final imageUrl = await fb.getProfileImageUrl(width: 100);
-        print('Your profile image: $imageUrl');
-
-        // Get email (since we request email permission)
-        final email = await fb.getUserEmail();
-        // But user can decline permission
-        if (email != null) print('And your email is $email');
-
+          if (user != null) {
+            final profile = await fb.getUserProfile();
+            final email = await fb.getUserEmail();
+            final alreadySignedIn = await checkIfUserExist(profile!.name!);
+            if (alreadySignedIn == false) {
+              await DatabaseUserService(user.uid)
+                  .saveUser(name: profile.name!, email: email ?? '');
+              return _userFromFirebase(user);
+            } else {
+              return DatabaseUserService(user.uid)
+                  .searchByUserName(profile.name!);
+            }
+          }
+        }
         break;
       case FacebookLoginStatus.cancel:
-        // User cancel log in
         break;
       case FacebookLoginStatus.error:
-        // Log in failed
         print('Error while log in: ${res.error}');
         break;
     }
+    return null;
   }
 
   Future<void> signOutFromGoogle() async {

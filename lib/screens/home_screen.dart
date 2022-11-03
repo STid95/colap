@@ -13,8 +13,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ColapUser? user = Provider.of<ColapUser?>(context);
-    if (user == null) throw Exception("user not found");
-    final databaseUser = DatabaseUserService(user.uid);
+    final databaseUser = DatabaseUserService(user!.uid);
     return ColapPage(
         child: StreamProvider<ColapUser>(
             create: (context) {

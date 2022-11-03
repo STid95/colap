@@ -103,11 +103,12 @@ class _AuthFormState extends State<AuthForm> {
                   height: 20,
                 ),
                 SignInButton(Buttons.Google,
-                    text: "Connexion avec google",
                     onPressed: (() async => await _auth.signInwithGoogle())),
+                const SizedBox(
+                  height: 20,
+                ),
                 SignInButton(Buttons.Facebook,
-                    text: "Connexion",
-                    onPressed: (() async => _auth.signInwithFacebook())),
+                    onPressed: (() async => await _auth.signInwithFacebook())),
                 const SizedBox(height: 20),
                 Text(
                   error,

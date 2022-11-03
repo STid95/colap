@@ -14,8 +14,11 @@ class DatabaseUserService {
   final listCollection = FirebaseFirestore.instance.collection("lists");
 
   Future<void> saveUser({required String name, required String email}) async {
-    await userCollection.doc(uid).set(
-        {'name': name, 'email': email, 'name_lowercase': name.toLowerCase()});
+    await userCollection.doc(uid).set({
+      'name': name,
+      'email': email,
+      'name_lowercase': name.replaceAll(' ', '').toLowerCase()
+    });
   }
 
   Future<void> saveToken(String? token) async {
@@ -23,6 +26,7 @@ class DatabaseUserService {
   }
 
   Stream<ColapUser> get user {
+    print(uid);
     return userCollection.doc(uid).snapshots().map(userFromSnapshot);
   }
 
@@ -45,6 +49,17 @@ class DatabaseUserService {
       }
     });
   }
+
+  Future<ColapUser?> searchByEmail(String email) async {
+    return userCollection.where("email", isEqualTo: email).get().then((value) {
+      if (value.docs.isNotEmpty) {
+        ColapUser user = userFromSnapshot(value.docs.first);
+        return user;
+      } else {
+        return null;
+      }
+    });
+  }
 }
 
 Future<bool> checkIfUserExist(String userName) async {
@@ -52,6 +67,17 @@ Future<bool> checkIfUserExist(String userName) async {
       .where("name_lowercase", isEqualTo: userName)
       .get()
       .then((value) {
+    print(value.docs.length);
+    if (value.docs.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+}
+
+Future<bool> checkIfUserSignedIn(String email) async {
+  return userCollection.where("email", isEqualTo: email).get().then((value) {
     print(value.docs.length);
     if (value.docs.isNotEmpty) {
       return true;

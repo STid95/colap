@@ -37,7 +37,10 @@ class UserGrade extends StatelessWidget {
             child: currentUser.name == userGrade
                 ? UIRating(
                     itemSize: MediaQuery.of(context).size.width * 0.06,
-                    initialRating: widget.name.grade1.toDouble(),
+                    initialRating: currentUser.name == list.users.first &&
+                            userGrade == currentUser.name
+                        ? widget.name.grade1.toDouble()
+                        : widget.name.grade2.toDouble(),
                     onUpdate: (rating) {
                       widget.name.grade1 = rating.toInt();
                       widget.name.updateRating1(list.uid!);
@@ -47,7 +50,11 @@ class UserGrade extends StatelessWidget {
                     itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
                     itemBuilder: (context, _) => const Icon(Icons.star),
                     itemCount: 5,
-                    rating: widget.name.grade1.toDouble())),
+                    rating: currentUser.name == list.users.first &&
+                            userGrade == currentUser.name
+                        ? widget.name.grade1.toDouble()
+                        : widget.name.grade2.toDouble(),
+                  )),
       ],
     );
   }

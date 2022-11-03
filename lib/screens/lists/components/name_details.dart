@@ -50,7 +50,7 @@ class _NameDetailsState extends State<NameDetails> {
         ]),
         const SizedBox(height: 10),
         Hero(
-          tag: widget.name.uid!,
+          tag: widget.name.uid ?? '',
           child: RatingBarIndicator(
               itemSize: 50,
               itemBuilder: (context, _) => const Icon(Icons.star),
