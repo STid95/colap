@@ -26,9 +26,9 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                    const ColapSvg(
+                    ColapSvg(
                       asset: "family",
-                      size: 300,
+                      size: MediaQuery.of(context).size.height * 0.3,
                     ),
                     Text("Comment on l'appelle ?",
                         style: Theme.of(context).textTheme.headline2),
@@ -42,7 +42,12 @@ class HomeScreen extends StatelessWidget {
                         onPressed: () {
                           listDialog(context, user!.name);
                         },
-                        text: "Créer une nouvelle liste")
+                        text: "Créer une nouvelle liste"),
+                    ColapIconButton(
+                        icon: Icons.sports_mma,
+                        onPressed: () =>
+                            Navigator.pushNamed(context, "/battle"),
+                        text: "Mode Battle Royale")
                   ]));
             }));
   }

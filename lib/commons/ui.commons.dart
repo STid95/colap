@@ -68,14 +68,21 @@ class ColapIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
-        icon: Icon(icon),
+        icon: Icon(
+          icon,
+          size: 30,
+        ),
         style: ElevatedButton.styleFrom(
             shape: const BeveledRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5)))),
         onPressed: onPressed,
         label: Padding(
           padding: const EdgeInsets.all(10),
-          child: Text(text),
+          child: Text(text,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: Colors.white)),
         ));
   }
 }

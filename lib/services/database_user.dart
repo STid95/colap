@@ -31,6 +31,7 @@ class DatabaseUserService {
   }
 
   Stream<List<ColapList>> getUserList(String userName) {
+    print(userName);
     var query =
         listCollection.where('users', arrayContains: userName).snapshots();
     return query.map((snapshot) => allUserListsFromSnapshot(snapshot));
