@@ -31,7 +31,7 @@ class _UIColapListState extends State<UIColapList>
   @override
   bool get wantKeepAlive => true;
   List<AddName> listNamesToAdd = [];
-  String orderBy = "added_at";
+  String orderBy = OrderBy.time.displayName;
   bool desc = true;
   @override
   Widget build(BuildContext context) {

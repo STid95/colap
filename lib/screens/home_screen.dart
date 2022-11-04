@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
                     ColapIconButton(
                         icon: Icons.sports_mma,
                         onPressed: () =>
-                            Navigator.pushNamed(context, "/battle"),
+                            Navigator.pushNamed(context, "/choiceList"),
                         text: "Mode Battle Royale")
                   ]));
             }));

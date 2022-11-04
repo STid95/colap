@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:colap/models/list_provider.dart';
+import 'package:colap/screens/battle/battle_screen.dart';
 import 'package:colap/screens/battle/choice_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => ListProvider()),
         Provider<DatabaseListService>(create: (_) => DatabaseListService()),
         Provider<DatabaseNameListService>(
             create: (_) => DatabaseNameListService()),
@@ -49,7 +52,8 @@ class MyApp extends StatelessWidget {
           '/': (context) => const SplashScreenWrapper(),
           '/login': (context) => const AuthenticateScreen(),
           '/lists': (context) => const ListsScreen(),
-          '/battle': (context) => const ChoiceScreen()
+          '/choiceList': (context) => const ChoiceScreen(),
+          '/battle': (context) => const BattleScreen()
         },
       ),
     );

@@ -26,12 +26,10 @@ class DatabaseUserService {
   }
 
   Stream<ColapUser> get user {
-    print(uid);
     return userCollection.doc(uid).snapshots().map(userFromSnapshot);
   }
 
   Stream<List<ColapList>> getUserList(String userName) {
-    print(userName);
     var query =
         listCollection.where('users', arrayContains: userName).snapshots();
     return query.map((snapshot) => allUserListsFromSnapshot(snapshot));
@@ -68,7 +66,6 @@ Future<bool> checkIfUserExist(String userName) async {
       .where("name_lowercase", isEqualTo: userName)
       .get()
       .then((value) {
-    print(value.docs.length);
     if (value.docs.isNotEmpty) {
       return true;
     } else {
@@ -79,7 +76,6 @@ Future<bool> checkIfUserExist(String userName) async {
 
 Future<bool> checkIfUserSignedIn(String email) async {
   return userCollection.where("email", isEqualTo: email).get().then((value) {
-    print(value.docs.length);
     if (value.docs.isNotEmpty) {
       return true;
     } else {

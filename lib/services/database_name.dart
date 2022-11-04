@@ -51,6 +51,15 @@ class DatabaseNameListService {
     return namesCollection.snapshots().map(allNamesFromSnapshot);
   }
 
+  Future<List<ColapName>> getNamesAsFuture(String listUid) async {
+    final namesCollection = FirebaseFirestore.instance
+        .collection("lists")
+        .doc(listUid)
+        .collection("names")
+        .get();
+    return namesCollection.then((value) => allNamesFromSnapshot(value));
+  }
+
   List<ColapName> allNamesFromSnapshot(
       QuerySnapshot<Map<String, dynamic>> snapshot) {
     return snapshot.docs.map((doc) {

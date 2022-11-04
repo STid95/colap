@@ -50,6 +50,13 @@ class DatabaseListService {
 
     return databaseNameListService.getListNames(uid, orderBy, desc);
   }
+
+  Future<List<ColapName>> getNamesAsFuture(String uid) {
+    final DatabaseNameListService databaseNameListService =
+        DatabaseNameListService();
+
+    return databaseNameListService.getNamesAsFuture(uid);
+  }
 }
 
 enum OrderBy {
