@@ -31,6 +31,7 @@ class _NameDetailsState extends State<NameDetails> {
     final user = Provider.of<ColapUser>(context);
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        const SizedBox(height: 10),
         Row(children: [
           Text(widget.name.name, style: Theme.of(context).textTheme.headline1)
         ]),

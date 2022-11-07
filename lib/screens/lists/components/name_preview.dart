@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 import 'package:colap/models/colap_name.dart';
@@ -59,39 +58,35 @@ class _NamePreviewState extends State<NamePreview> {
                   ),
                 ),
               )
-            : Slidable(
-                endActionPane: ActionPane(
-                  motion: const StretchMotion(),
-                  children: [
-                    SlidableAction(
-                      onPressed: (context) => showRemoveDialog(context, (() {
-                        setState(() {
-                          details = false;
-                        });
-                        ColapName(name: widget.name, uid: widget.nameId)
-                            .remove(widget.listId);
-                      })),
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor: Colors.white,
-                      icon: Icons.delete,
-                    ),
-                  ],
-                ),
-                child: ListTile(
-                  title: Text(
+            : ListTile(
+                contentPadding: EdgeInsets.zero,
+                horizontalTitleGap: 0,
+                title: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  child: Text(
                     widget.name,
                     style: Theme.of(context).textTheme.headline5,
                     overflow: TextOverflow.clip,
                   ),
-                  trailing: Hero(
-                    tag: widget.nameId,
-                    child: RatingBarIndicator(
-                        itemSize: 30,
-                        itemBuilder: (context, _) => Icon(Icons.star,
-                            color: Theme.of(context).colorScheme.primary),
-                        itemCount: 5,
-                        rating: widget.averageGrade.toDouble()),
-                  ),
+                ),
+                leading: InkWell(
+                    child: Icon(Icons.delete,
+                        size: 20, color: Theme.of(context).colorScheme.primary),
+                    onTap: () => showRemoveDialog(context, (() {
+                          setState(() {
+                            details = false;
+                          });
+                          ColapName(name: widget.name, uid: widget.nameId)
+                              .remove(widget.listId);
+                        }))),
+                trailing: Hero(
+                  tag: widget.nameId,
+                  child: RatingBarIndicator(
+                      itemSize: 30,
+                      itemBuilder: (context, _) => Icon(Icons.star,
+                          color: Theme.of(context).colorScheme.primary),
+                      itemCount: 5,
+                      rating: widget.averageGrade.toDouble()),
                 ),
               ),
         onTap: () => setState(() {
