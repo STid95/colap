@@ -6,7 +6,6 @@ import 'package:colap/models/colap_list.dart';
 import 'package:colap/models/colap_name.dart';
 
 import '../../../models/colap_user.dart';
-import 'dialogs/remove_dialog.dart';
 import 'user_grade.dart';
 
 class NameDetails extends StatefulWidget {
@@ -32,19 +31,6 @@ class _NameDetailsState extends State<NameDetails> {
     final user = Provider.of<ColapUser>(context);
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        Align(
-          alignment: Alignment.topRight,
-          child: InkWell(
-            child: const Icon(Icons.delete),
-            onTap: () {
-              showRemoveDialog(context, (() {
-                widget.onDelete();
-                widget.name.remove(list.uid!);
-              }));
-            },
-          ),
-        ),
-        const SizedBox(height: 10),
         Row(children: [
           Text(widget.name.name, style: Theme.of(context).textTheme.headline1)
         ]),
