@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:colap/models/battle_settings.dart';
 import 'package:colap/models/list_provider.dart';
 import 'package:colap/screens/battle/battle_screen.dart';
 import 'package:colap/screens/battle/choice_screen.dart';
+import 'package:colap/services/push_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +26,8 @@ void main() async {
   final theme = ThemeDecoder.decodeThemeData(themeJson)!;
 
   await Firebase.initializeApp();
+  registerNotification();
+
   runApp(MyApp(theme: theme));
 }
 
@@ -38,7 +42,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ListProvider()),
+        Provider(create: (_) => BattleSettings()),
+        ChangeNotifierProvider(create: (_) => ListProvider(selectedLists: [])),
         Provider<DatabaseListService>(create: (_) => DatabaseListService()),
         Provider<DatabaseNameListService>(
             create: (_) => DatabaseNameListService()),

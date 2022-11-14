@@ -60,6 +60,19 @@ class DatabaseNameListService {
     return namesCollection.then((value) => allNamesFromSnapshot(value));
   }
 
+  Future<List<ColapName>> getNamesAsFutureFromLists(
+      List<String?> listsUids) async {
+    List<ColapName> names = [];
+    for (var uid in listsUids) {
+      names.addAll(await getNames(uid!));
+    }
+    return names;
+  }
+
+  Future<List<ColapName>> getNames(String listUid) async {
+    return await getNamesAsFuture(listUid);
+  }
+
   List<ColapName> allNamesFromSnapshot(
       QuerySnapshot<Map<String, dynamic>> snapshot) {
     return snapshot.docs.map((doc) {

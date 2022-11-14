@@ -1,13 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../models/battle_settings.dart';
 import '../../../models/colap_name.dart';
 import 'choice_card.dart';
 
 // ignore: must_be_immutable
 class NameCard extends StatefulWidget {
-  final void Function(String) onFinished;
+  final void Function(List<String>) onFinished;
 
   List<ColapName> list;
   NameCard({
@@ -23,6 +25,8 @@ class NameCard extends StatefulWidget {
 class _NameCardState extends State<NameCard> {
   @override
   Widget build(BuildContext context) {
+    final settings = Provider.of<BattleSettings>(context, listen: false);
+
     List<int> indexes = generateIndex(widget.list.length);
 
     return Draggable(
@@ -49,10 +53,11 @@ class _NameCardState extends State<NameCard> {
           } else {
             widget.list.removeAt(indexes.last);
           }
-          if (widget.list.length > 1) {
+          if (settings.twins == true && widget.list.length > 2 ||
+              settings.twins == false && widget.list.length > 1) {
             indexes = generateIndex(widget.list.length);
           } else {
-            widget.onFinished(widget.list.first.name);
+            widget.onFinished(widget.list.map((e) => e.name).toList());
           }
           setState(() {});
         },

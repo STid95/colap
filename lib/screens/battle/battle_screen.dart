@@ -19,30 +19,32 @@ class BattleScreen extends StatefulWidget {
 }
 
 class _BattleScreenState extends State<BattleScreen> {
-  String chosenName = '';
+  List<ColapName> names = [];
+  List<String> chosenNames = [];
   bool finished = false;
   @override
   Widget build(BuildContext context) {
     return ColapPage(
-        child:
-            Selector<ListProvider, ColapList?>(selector: (context, provider) {
-      return provider.selectedList;
+        child: Selector<ListProvider, List<ColapList?>?>(
+            selector: (context, provider) {
+      return provider.selectedLists;
     }, builder: (context, value, child) {
-      if (value != null) {
-        final list = value;
+      if (value != null && value.isNotEmpty) {
+        final lists = value;
         return FutureBuilder<List<ColapName>>(
             future: Provider.of<DatabaseListService>(context)
-                .getNamesAsFuture(list.uid!),
+                .getNamesAsFutureInLists(lists.map((e) => e!.uid).toList()),
             initialData: const [],
             builder: (context, future) {
               if (future.hasData && future.data!.isNotEmpty) {
-                list.names = future.data!;
+                names = future.data!;
                 return Center(
                     child: finished
-                        ? ChosenName(chosenName: chosenName)
+                        ? ChosenNames(chosenNames: chosenNames)
                         : NameCard(
-                            onFinished: (String name) => showChosenName(name),
-                            list: list.names,
+                            onFinished: (List<String> names) =>
+                                showChosenNames(names),
+                            list: names,
                           ));
               } else {
                 return circularProgress();
@@ -54,9 +56,9 @@ class _BattleScreenState extends State<BattleScreen> {
     }));
   }
 
-  void showChosenName(String name) {
+  void showChosenNames(List<String> names) {
     return setState(() {
-      chosenName = name;
+      chosenNames = names;
       finished = true;
     });
   }
