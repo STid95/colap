@@ -1,17 +1,3 @@
 # colap
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# colap
+Colap is a Flutter app aimed at parents and future parents. Naming a future kid can be hard, with a lot of back and forth messages between involved parties. With Colap, you can manage a shared list and each person can grade and add names, making it easier to figure out which names are liked by both.
