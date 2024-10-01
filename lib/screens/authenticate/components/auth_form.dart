@@ -54,21 +54,15 @@ class _AuthFormState extends State<AuthForm> {
       appBar: AppBar(
         elevation: 0.0,
         title: Text(showSignIn ? 'Se connecter' : 'Créer un compte',
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge!
-                .copyWith(color: Colors.white)),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white)),
         actions: [
           TextButton.icon(
             icon: const Icon(
               Icons.person,
-              color: Colors.white,
+              color: Colors.black,
             ),
             label: Text(showSignIn ? "S'inscrire" : 'Se connecter',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: Colors.white)),
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black)),
             onPressed: () => toggleView(),
           ),
         ],
@@ -102,13 +96,11 @@ class _AuthFormState extends State<AuthForm> {
                 const SizedBox(
                   height: 20,
                 ),
-                SignInButton(Buttons.Google,
-                    onPressed: (() async => await _auth.signInwithGoogle())),
+                SignInButton(Buttons.Google, onPressed: (() async => await _auth.signInwithGoogle())),
                 const SizedBox(
                   height: 20,
                 ),
-                SignInButton(Buttons.Facebook,
-                    onPressed: (() async => await _auth.signInwithFacebook())),
+                SignInButton(Buttons.Facebook, onPressed: (() async => await _auth.signInwithFacebook())),
                 const SizedBox(height: 20),
                 Text(
                   error,

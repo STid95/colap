@@ -25,16 +25,13 @@ class _NameDetailsState extends State<NameDetails> {
   bool edit = false;
   @override
   Widget build(BuildContext context) {
-    final TextEditingController commentController =
-        TextEditingController(text: widget.name.comment);
+    final TextEditingController commentController = TextEditingController(text: widget.name.comment);
     final list = Provider.of<ColapList>(context, listen: false);
     final user = Provider.of<ColapUser>(context);
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         const SizedBox(height: 10),
-        Row(children: [
-          Text(widget.name.name, style: Theme.of(context).textTheme.headline1)
-        ]),
+        Row(children: [Text(widget.name.name, style: Theme.of(context).textTheme.bodyMedium)]),
         const SizedBox(height: 10),
         Hero(
           tag: widget.name.uid ?? '',
@@ -76,15 +73,14 @@ class _NameDetailsState extends State<NameDetails> {
                     )
                   : Text(
                       widget.name.comment,
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
               IconButton(
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.all(0),
                   onPressed: (() {
                     if (edit) {
-                      widget.name
-                          .updateComment(list.uid!, commentController.text);
+                      widget.name.updateComment(list.uid!, commentController.text);
                     }
                     setState(() => edit = !edit);
                   }),

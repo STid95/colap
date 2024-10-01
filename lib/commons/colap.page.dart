@@ -22,8 +22,8 @@ class ColapPage extends StatelessWidget {
               onPressed: () => Navigator.pushNamed(context, "/"),
             ),
             title: Text("Colap",
-                style: Theme.of(context).textTheme.headline1?.copyWith(
-                    color: Theme.of(context).colorScheme.background)),
+                style:
+                    Theme.of(context).textTheme.labelLarge?.copyWith(color: Theme.of(context).colorScheme.background)),
             actions: [
               IconButton(
                   onPressed: () {

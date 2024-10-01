@@ -23,28 +23,28 @@ class ChoiceCard extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: list.isEmpty
             ? circularProgress()
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        list[indexes.first].name,
-                        style: Theme.of(context).textTheme.headline1!.copyWith(
-                            color: Theme.of(context).colorScheme.primary),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    Text("OU", style: Theme.of(context).textTheme.headline1),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Text(
-                        list[indexes.last].name,
-                        style: Theme.of(context).textTheme.headline1!.copyWith(
-                            color: Theme.of(context).colorScheme.onTertiary),
-                      ),
-                    ),
-                  ]),
+            : Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    list[indexes.first].name,
+                    style:
+                        Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.primary),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Text("OU", style: Theme.of(context).textTheme.labelLarge),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    list[indexes.last].name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelLarge!
+                        .copyWith(color: Theme.of(context).colorScheme.onTertiary),
+                  ),
+                ),
+              ]),
       )),
     );
   }

@@ -17,16 +17,14 @@ class ColapTabBar extends StatefulWidget {
   State<ColapTabBar> createState() => _ColapTabBarState();
 }
 
-class _ColapTabBarState extends State<ColapTabBar>
-    with TickerProviderStateMixin {
+class _ColapTabBarState extends State<ColapTabBar> with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
     _tabController = TabController(
         initialIndex: widget.createdListId != null
-            ? widget.lists.indexOf(widget.lists
-                .firstWhere((element) => element.uid == widget.createdListId))
+            ? widget.lists.indexOf(widget.lists.firstWhere((element) => element.uid == widget.createdListId))
             : 0,
         length: widget.lists.length,
         vsync: this);
@@ -38,8 +36,7 @@ class _ColapTabBarState extends State<ColapTabBar>
   Widget build(BuildContext context) {
     _tabController = TabController(
         initialIndex: widget.createdListId != null
-            ? widget.lists.indexOf(widget.lists
-                .firstWhere((element) => element.uid == widget.createdListId))
+            ? widget.lists.indexOf(widget.lists.firstWhere((element) => element.uid == widget.createdListId))
             : 0,
         length: widget.lists.length,
         vsync: this);
@@ -55,7 +52,7 @@ class _ColapTabBarState extends State<ColapTabBar>
               .map((e) => Tab(
                     child: Text(
                       e.title,
-                      style: Theme.of(context).textTheme.headline2,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ))
               .toList(),
@@ -66,13 +63,11 @@ class _ColapTabBarState extends State<ColapTabBar>
                 controller: _tabController,
                 children: widget.lists
                     .map((e) => Provider(
-                        create: (context) => ColapList(
-                            title: e.title, uid: e.uid, users: e.users),
+                        create: (context) => ColapList(title: e.title, uid: e.uid, users: e.users),
                         builder: ((context, child) => UIColapList(
                               list: e,
                               onListDeleted: () {
-                                _tabController = TabController(
-                                    length: widget.lists.length, vsync: this);
+                                _tabController = TabController(length: widget.lists.length, vsync: this);
                               },
                             ))))
                     .toList()))

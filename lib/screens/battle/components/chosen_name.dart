@@ -16,16 +16,10 @@ class ChosenNames extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-              chosenNames.length < 2
-                  ? "Et le nom choisi est..."
-                  : "Et les noms choisis sont...",
-              style: Theme.of(context).textTheme.headline1),
+          Text(chosenNames.length < 2 ? "Et le nom choisi est..." : "Et les noms choisis sont...",
+              style: Theme.of(context).textTheme.labelLarge),
           ...chosenNames.map((e) => Text(e,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline1!
-                  .copyWith(color: Theme.of(context).colorScheme.primary))),
+              style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.primary))),
         ],
       ),
     );

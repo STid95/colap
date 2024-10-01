@@ -47,8 +47,7 @@ class ColapButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-            shape: const BeveledRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(5)))),
+            shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5)))),
         onPressed: onPressed,
         child: Padding(padding: const EdgeInsets.all(10), child: Text(text)));
   }
@@ -73,16 +72,11 @@ class ColapIconButton extends StatelessWidget {
           size: 30,
         ),
         style: ElevatedButton.styleFrom(
-            shape: const BeveledRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(5)))),
+            shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5)))),
         onPressed: onPressed,
         label: Padding(
           padding: const EdgeInsets.all(10),
-          child: Text(text,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1!
-                  .copyWith(color: Colors.white)),
+          child: Text(text, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white)),
         ));
   }
 }
@@ -111,8 +105,7 @@ class ColapSvg extends StatelessWidget {
 Widget circularProgress() {
   return const Align(
     alignment: Alignment.center,
-    child:
-        SizedBox(width: 200, height: 200, child: CircularProgressIndicator()),
+    child: SizedBox(width: 200, height: 200, child: CircularProgressIndicator()),
   );
 }
 

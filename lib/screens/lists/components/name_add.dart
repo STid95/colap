@@ -60,8 +60,7 @@ class _AddNameState extends State<AddName> {
                             nameValidated
                                 ? Text(
                                     nameController.text,
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
+                                    style: Theme.of(context).textTheme.bodyMedium,
                                   )
                                 : Expanded(
                                     child: TextFormField(
@@ -72,19 +71,14 @@ class _AddNameState extends State<AddName> {
                                       keyboardType: TextInputType.name,
                                       autofocus: true,
                                       enableSuggestions: false,
-                                      validator: (value) =>
-                                          value == null || value.isEmpty
-                                              ? "Entrez un prénom"
-                                              : null,
+                                      validator: (value) => value == null || value.isEmpty ? "Entrez un prénom" : null,
                                     ),
                                   ),
                             IconButton(
                                 alignment: Alignment.centerRight,
                                 padding: const EdgeInsets.all(0),
-                                onPressed: (() => setState(
-                                    () => nameValidated = !nameValidated)),
-                                icon: Icon(
-                                    nameValidated ? Icons.edit : Icons.check))
+                                onPressed: (() => setState(() => nameValidated = !nameValidated)),
+                                icon: Icon(nameValidated ? Icons.edit : Icons.check))
                           ],
                         ),
                         UIRating(
@@ -117,8 +111,7 @@ class _AddNameState extends State<AddName> {
                               ColapIconButton(
                                 icon: Icons.check_circle_outline,
                                 onPressed: () {
-                                  if (_formKey.currentState?.validate() ==
-                                      true) {
+                                  if (_formKey.currentState?.validate() == true) {
                                     addName();
                                   }
                                 },

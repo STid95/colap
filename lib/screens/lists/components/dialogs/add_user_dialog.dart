@@ -40,36 +40,31 @@ class _AddUserDialogState extends State<AddUserDialog> {
         height: 450,
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Inviter quelqu'un à rejoindre la liste",
-                    style: Theme.of(context).textTheme.subtitle1),
-                const ColapSvg(
-                  asset: "link",
-                  size: 180,
-                ),
-                const Text("Nom de l'utilisateur.ice à ajouter à la liste"),
-                TextFormField(
-                  controller: userName,
-                ),
-                if (error)
-                  const Text("Utilisateur.ice non trouvé.e !",
-                      style: TextStyle(color: Colors.red)),
-                ColapButton(
-                  text: "Ajouter",
-                  onPressed: () async {
-                    await searchAndAddUser(databaseUser, userName, navigator);
-                  },
-                ),
-              ]),
+          child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text("Inviter quelqu'un à rejoindre la liste", style: Theme.of(context).textTheme.labelMedium),
+            const ColapSvg(
+              asset: "link",
+              size: 180,
+            ),
+            const Text("Nom de l'utilisateur.ice à ajouter à la liste"),
+            TextFormField(
+              controller: userName,
+            ),
+            if (error) const Text("Utilisateur.ice non trouvé.e !", style: TextStyle(color: Colors.red)),
+            ColapButton(
+              text: "Ajouter",
+              onPressed: () async {
+                await searchAndAddUser(databaseUser, userName, navigator);
+              },
+            ),
+          ]),
         ),
       ),
     );
   }
 
-  Future<void> searchAndAddUser(DatabaseUserService databaseUser,
-      TextEditingController userName, NavigatorState navigator) async {
+  Future<void> searchAndAddUser(
+      DatabaseUserService databaseUser, TextEditingController userName, NavigatorState navigator) async {
     final foundUser = await databaseUser.searchByUserName(userName.text);
     if (foundUser == null) {
       setState(() {

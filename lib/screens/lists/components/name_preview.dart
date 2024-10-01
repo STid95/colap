@@ -27,8 +27,7 @@ class NamePreview extends StatefulWidget {
   State<NamePreview> createState() => _NamePreviewState();
 }
 
-class _NamePreviewState extends State<NamePreview>
-    with SingleTickerProviderStateMixin {
+class _NamePreviewState extends State<NamePreview> with SingleTickerProviderStateMixin {
   bool details = false;
   late final AnimationController _controller;
   late final CurvedAnimation animation;
@@ -89,8 +88,7 @@ class _NamePreviewState extends State<NamePreview>
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         StreamProvider<ColapName>.value(
-                          value: Provider.of<DatabaseNameListService>(context)
-                              .getName(widget.listId, widget.nameId),
+                          value: Provider.of<DatabaseNameListService>(context).getName(widget.listId, widget.nameId),
                           initialData: ColapName(name: ''),
                           builder: (context, child) {
                             ColapName name = Provider.of<ColapName>(context);
@@ -120,26 +118,23 @@ class _NamePreviewState extends State<NamePreview>
               width: MediaQuery.of(context).size.width * 0.7,
               child: Text(
                 widget.name,
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.titleLarge,
                 overflow: TextOverflow.clip,
               ),
             ),
             leading: InkWell(
-                child: Icon(Icons.delete,
-                    size: 20, color: Theme.of(context).colorScheme.primary),
+                child: Icon(Icons.delete, size: 20, color: Theme.of(context).colorScheme.primary),
                 onTap: () => showRemoveDialog(context, (() {
                       setState(() {
                         details = false;
                       });
-                      ColapName(name: widget.name, uid: widget.nameId)
-                          .remove(widget.listId);
+                      ColapName(name: widget.name, uid: widget.nameId).remove(widget.listId);
                     }))),
             trailing: Hero(
               tag: widget.nameId,
               child: RatingBarIndicator(
                   itemSize: 30,
-                  itemBuilder: (context, _) => Icon(Icons.star,
-                      color: Theme.of(context).colorScheme.primary),
+                  itemBuilder: (context, _) => Icon(Icons.star, color: Theme.of(context).colorScheme.primary),
                   itemCount: 5,
                   rating: widget.averageGrade.toDouble()),
             ),

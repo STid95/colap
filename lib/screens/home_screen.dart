@@ -23,32 +23,27 @@ class HomeScreen extends StatelessWidget {
             builder: (context, child) {
               user = Provider.of<ColapUser>(context);
               return Center(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                    ColapSvg(
-                      asset: "family",
-                      size: MediaQuery.of(context).size.height * 0.3,
-                    ),
-                    Text("Comment on l'appelle ?",
-                        style: Theme.of(context).textTheme.headline2),
-                    ColapIconButton(
-                        icon: Icons.view_list,
-                        onPressed: (() =>
-                            Navigator.pushNamed(context, "/lists")),
-                        text: "Accéder à mes listes"),
-                    ColapIconButton(
-                        icon: Icons.add_circle_outline,
-                        onPressed: () {
-                          listDialog(context, user!.name);
-                        },
-                        text: "Créer une nouvelle liste"),
-                    ColapIconButton(
-                        icon: Icons.sports_mma,
-                        onPressed: () =>
-                            Navigator.pushNamed(context, "/choiceList"),
-                        text: "Mode Battle Royale")
-                  ]));
+                  child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                ColapSvg(
+                  asset: "family",
+                  size: MediaQuery.of(context).size.height * 0.3,
+                ),
+                Text("Comment on l'appelle ?", style: Theme.of(context).textTheme.titleMedium),
+                ColapIconButton(
+                    icon: Icons.view_list,
+                    onPressed: (() => Navigator.pushNamed(context, "/lists")),
+                    text: "Accéder à mes listes"),
+                ColapIconButton(
+                    icon: Icons.add_circle_outline,
+                    onPressed: () {
+                      listDialog(context, user!.name);
+                    },
+                    text: "Créer une nouvelle liste"),
+                ColapIconButton(
+                    icon: Icons.sports_mma,
+                    onPressed: () => Navigator.pushNamed(context, "/choiceList"),
+                    text: "Mode Battle Royale")
+              ]));
             }));
   }
 }

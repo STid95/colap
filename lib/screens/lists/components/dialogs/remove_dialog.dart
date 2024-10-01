@@ -25,29 +25,22 @@ class RemoveDialog extends StatelessWidget {
         height: 150,
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Etes-vous sûr.e ?",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6!
-                        .copyWith(fontWeight: FontWeight.bold)),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.cancel),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                      IconButton(
-                          onPressed: (() {
-                            onDelete();
-                            Navigator.pop(context);
-                          }),
-                          icon: const Icon(Icons.check))
-                    ])
-              ]),
+          child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text("Etes-vous sûr.e ?",
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.bold)),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              IconButton(
+                icon: const Icon(Icons.cancel),
+                onPressed: () => Navigator.pop(context),
+              ),
+              IconButton(
+                  onPressed: (() {
+                    onDelete();
+                    Navigator.pop(context);
+                  }),
+                  icon: const Icon(Icons.check))
+            ])
+          ]),
         ),
       ),
     );

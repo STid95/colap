@@ -28,7 +28,7 @@ class UserGrade extends StatelessWidget {
         Expanded(
           child: Text(
             userGrade,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.labelMedium,
           ),
         ),
         const SizedBox(width: 10),
@@ -37,8 +37,7 @@ class UserGrade extends StatelessWidget {
             child: currentUser.name == userGrade
                 ? UIRating(
                     itemSize: MediaQuery.of(context).size.width * 0.06,
-                    initialRating: currentUser.name == list.users.first &&
-                            userGrade == currentUser.name
+                    initialRating: currentUser.name == list.users.first && userGrade == currentUser.name
                         ? widget.name.grade1.toDouble()
                         : widget.name.grade2.toDouble(),
                     onUpdate: (rating) {
@@ -50,8 +49,7 @@ class UserGrade extends StatelessWidget {
                     itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
                     itemBuilder: (context, _) => const Icon(Icons.star),
                     itemCount: 5,
-                    rating: currentUser.name == list.users.first &&
-                            userGrade == currentUser.name
+                    rating: currentUser.name == list.users.first && userGrade == currentUser.name
                         ? widget.name.grade1.toDouble()
                         : widget.name.grade2.toDouble(),
                   )),

@@ -38,8 +38,7 @@ class _ChoiceScreenState extends State<ChoiceScreen> {
               initialData: const [],
               builder: (context, child) {
                 List<ColapList> lists = Provider.of<List<ColapList>>(context);
-                Provider.of<ListProvider>(context, listen: false)
-                    .selectedLists = [];
+                Provider.of<ListProvider>(context, listen: false).selectedLists = [];
                 return Center(
                   child: SizedBox(
                     height: MediaQuery.of(context).size.width * 0.95,
@@ -48,42 +47,28 @@ class _ChoiceScreenState extends State<ChoiceScreen> {
                       shadowColor: Theme.of(context).colorScheme.primary,
                       child: Padding(
                         padding: const EdgeInsets.all(20),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Row(
-                                  children: [
-                                    const Text("Mode gémellaire"),
-                                    Switch(
-                                      onChanged: ((value) => setState(() {
-                                            Provider.of<BattleSettings>(context,
-                                                    listen: false)
-                                                .twins = value;
-                                          })),
-                                      value: Provider.of<BattleSettings>(
-                                              context,
-                                              listen: false)
-                                          .twins,
-                                    ),
-                                  ],
+                        child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Row(
+                              children: [
+                                const Text("Mode gémellaire"),
+                                Switch(
+                                  onChanged: ((value) => setState(() {
+                                        Provider.of<BattleSettings>(context, listen: false).twins = value;
+                                      })),
+                                  value: Provider.of<BattleSettings>(context, listen: false).twins,
                                 ),
-                              ),
-                              Text("Quelle(s) liste(s) utiliser ?",
-                                  style: Theme.of(context).textTheme.headline5),
-                              Wrap(
-                                  spacing: 20,
-                                  runSpacing: 20,
-                                  children: lists
-                                      .map((e) => ListChoice(list: e))
-                                      .toList()),
-                              ColapIconButton(
-                                  icon: Icons.sports_martial_arts,
-                                  onPressed: () =>
-                                      Navigator.pushNamed(context, "/battle"),
-                                  text: "C'est parti !")
-                            ]),
+                              ],
+                            ),
+                          ),
+                          Text("Quelle(s) liste(s) utiliser ?", style: Theme.of(context).textTheme.labelMedium),
+                          Wrap(spacing: 20, runSpacing: 20, children: lists.map((e) => ListChoice(list: e)).toList()),
+                          ColapIconButton(
+                              icon: Icons.sports_martial_arts,
+                              onPressed: () => Navigator.pushNamed(context, "/battle"),
+                              text: "C'est parti !")
+                        ]),
                       ),
                     ),
                   ),
@@ -111,11 +96,7 @@ class _ListChoiceState extends State<ListChoice> {
   @override
   Widget build(BuildContext context) {
     return ChoiceChip(
-      label: Text(widget.list.title,
-          style: Theme.of(context)
-              .textTheme
-              .bodyText1!
-              .copyWith(color: Colors.white)),
+      label: Text(widget.list.title, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white)),
       padding: const EdgeInsets.all(10),
       selected: selected,
       selectedColor: Theme.of(context).colorScheme.primary,

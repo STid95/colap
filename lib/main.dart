@@ -21,22 +21,22 @@ import 'package:colap/wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final themeStr = await rootBundle.loadString('assets/appainter_theme.json');
+  /*final themeStr = await rootBundle.loadString('assets/appainter_theme.json');
   final themeJson = jsonDecode(themeStr);
-  final theme = ThemeDecoder.decodeThemeData(themeJson)!;
+  final theme = ThemeDecoder.decodeThemeData(themeJson)!;*/
 
   await Firebase.initializeApp();
   registerNotification();
 
-  runApp(MyApp(theme: theme));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final ThemeData theme;
+  // final ThemeData theme;
 
   const MyApp({
     Key? key,
-    required this.theme,
+    //  required this.theme,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -45,13 +45,11 @@ class MyApp extends StatelessWidget {
         Provider(create: (_) => BattleSettings()),
         ChangeNotifierProvider(create: (_) => ListProvider(selectedLists: [])),
         Provider<DatabaseListService>(create: (_) => DatabaseListService()),
-        Provider<DatabaseNameListService>(
-            create: (_) => DatabaseNameListService()),
-        StreamProvider<ColapUser?>(
-            create: (_) => AuthService().user, initialData: null),
+        Provider<DatabaseNameListService>(create: (_) => DatabaseNameListService()),
+        StreamProvider<ColapUser?>(create: (_) => AuthService().user, initialData: null),
       ],
       child: MaterialApp(
-        theme: theme,
+        //theme: theme,
         initialRoute: '/',
         routes: {
           '/': (context) => const SplashScreenWrapper(),

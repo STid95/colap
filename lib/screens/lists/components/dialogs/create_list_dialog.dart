@@ -34,62 +34,48 @@ class CreateListDialog extends StatelessWidget {
         height: 450,
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Créer une nouvelle liste",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6!
-                        .copyWith(fontWeight: FontWeight.bold)),
-                const ColapSvg(
-                  asset: "list",
-                  size: 180,
-                ),
-                Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      Text("Nom de la liste",
-                          style: Theme.of(context).textTheme.headline6),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: TextFormField(
-                          controller: listName,
-                          validator: (value) => value == null || value.isEmpty
-                              ? "Indiquez un nom de liste"
-                              : null,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                ColapButton(
-                  text: "Valider",
-                  onPressed: () async {
-                    await tryCreateList(
-                        formKey, databaseList, listName, navigator, messenger);
-                  },
-                ),
-              ]),
+          child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text("Créer une nouvelle liste",
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.bold)),
+            const ColapSvg(
+              asset: "list",
+              size: 180,
+            ),
+            Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  Text("Nom de la liste", style: Theme.of(context).textTheme.labelMedium),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: TextFormField(
+                      controller: listName,
+                      validator: (value) => value == null || value.isEmpty ? "Indiquez un nom de liste" : null,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            ColapButton(
+              text: "Valider",
+              onPressed: () async {
+                await tryCreateList(formKey, databaseList, listName, navigator, messenger);
+              },
+            ),
+          ]),
         ),
       ),
     );
   }
 
-  Future<void> tryCreateList(
-      GlobalKey<FormState> formKey,
-      DatabaseListService databaseList,
-      TextEditingController listName,
-      NavigatorState navigator,
-      ScaffoldMessengerState messenger) async {
+  Future<void> tryCreateList(GlobalKey<FormState> formKey, DatabaseListService databaseList,
+      TextEditingController listName, NavigatorState navigator, ScaffoldMessengerState messenger) async {
     if (formKey.currentState?.validate() == true) {
       ColapList? list = await databaseList.createList(listName.text, userName);
       if (list != null) {
         navigator.pushNamed("/lists", arguments: list.uid);
       } else {
-        messenger.showSnackBar(
-            const SnackBar(content: Text("Une erreur s'est produite")));
+        messenger.showSnackBar(const SnackBar(content: Text("Une erreur s'est produite")));
       }
     }
   }
